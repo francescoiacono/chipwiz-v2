@@ -1,7 +1,10 @@
-export default function Home() {
+import Home from '@/components/pages/home/home';
+import { RoomProvider } from '@/components/providers';
+
+export default function Page() {
   return (
-    <main>
-      <h1>Hello World!</h1>
-    </main>
+    <RoomProvider>
+      <Home />
+    </RoomProvider>
   );
 }
