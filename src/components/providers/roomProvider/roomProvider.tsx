@@ -22,6 +22,7 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
 
   const listenRoom = (roomId: string) => {
     const docRef = doc(db, 'rooms', roomId);
+
     if (!docRef) return null;
     const unsub = onSnapshot(docRef, (doc) => {
       setRoom(doc.data() as Room);

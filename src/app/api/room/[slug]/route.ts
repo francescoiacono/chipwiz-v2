@@ -1,21 +1,29 @@
-import { Room } from '@/data/types';
 import { db } from '@/lib/firebase';
 import { doc, getDoc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
 
-export const GET = async ({ params }: { params: { slug: string } }) => {
+export const GET = async (
+  req: Request,
+  { params }: { params: { slug: string } }
+) => {
   try {
     const { slug } = params;
 
     const docRef = doc(db, 'rooms', slug);
-    const res = await getDoc(docRef);
+    const docSnap = await getDoc(docRef);
 
-    return NextResponse.json({
-      message: `Got room ${slug}`,
-      data: res.data(),
-    });
+    if (docSnap.exists()) {
+      return NextResponse.json({
+        message: `Got room ${slug}`,
+        data: docSnap.data(),
+      });
+    } else {
+      return NextResponse.json({
+        message: `No such document!`,
+      });
+    }
   } catch (e) {
-    return NextResponse.json({ error: e });
+    console.log('SUPER ERROR:', e);
   }
 };
 

@@ -4,6 +4,7 @@ import { createPlayer, createRoom, updateRoom } from '@/services';
 import Spinner from '@/components/ui/spinner/spinner';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Button from '@/components/ui/button/button';
 
 const RoomForm = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const RoomForm = () => {
     setLoading(true);
 
     try {
-      const newRoom = await createRoom(formData.roomName);
+      const newRoom = await createRoom(formData.roomName, formData.chips);
       const newPlayer = await createPlayer(
         formData.username,
         formData.chips,
@@ -90,7 +91,7 @@ const RoomForm = () => {
 
       {error && <div>Error: {error}</div>}
 
-      {loading ? <Spinner /> : <button type='submit'>Create Room</button>}
+      {loading ? <Spinner /> : <Button type='submit'>Create Room</Button>}
     </form>
   );
 };

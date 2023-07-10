@@ -1,27 +1,11 @@
-'use client';
-import { useRoom } from '@/components/providers';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import Room from '@/components/pages/room/room';
+import { RoomProvider } from '@/components/providers';
 
 const Page = () => {
-  const { slug } = useParams();
-
-  //const { room, listenRoom } = useRoom();
-
-  // useEffect(() => {
-  //   const unsubscribe = listenRoom('asd');
-  //   return () => {
-  //     if (unsubscribe) {
-  //       unsubscribe();
-  //     }
-  //   };
-  // }, [listenRoom]);
-
   return (
-    <div>
-      <h1>Room</h1>
-    </div>
+    <RoomProvider>
+      <Room />
+    </RoomProvider>
   );
 };
 

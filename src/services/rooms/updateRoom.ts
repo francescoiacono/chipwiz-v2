@@ -10,14 +10,10 @@ export const updateRoom = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ updatedProperty }),
+      body: JSON.stringify({ ...updatedProperty }),
     });
 
-    console.log('updatedProperty: ', updatedProperty);
-
     const { updatedRoom } = await res.json();
-
-    console.log('Updated room: ', updatedRoom);
 
     if (updatedRoom) return updatedRoom;
     else throw new Error('Could not update room');

@@ -1,4 +1,4 @@
-export const createRoom = async (roomName: string) => {
+export const createRoom = async (roomName: string, initialChips: number) => {
   try {
     const res = await fetch('/api/room', {
       method: 'POST',
@@ -7,12 +7,11 @@ export const createRoom = async (roomName: string) => {
       },
       body: JSON.stringify({
         name: roomName || 'Untitled Room',
+        initialChips: initialChips || 1000,
       }),
     });
 
     const { newRoom } = await res.json();
-
-    console.log('New room: ', newRoom);
 
     if (newRoom) return newRoom;
     else throw new Error('Could not create room');

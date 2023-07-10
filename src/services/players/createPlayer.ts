@@ -18,8 +18,6 @@ export const createPlayer = async (
 
     const { newPlayer } = await res.json();
 
-    console.log('New player: ', newPlayer);
-
     if (newPlayer) return newPlayer;
     else throw new Error('Could not create player');
   } catch (error) {
