@@ -1,6 +1,6 @@
 'use client';
 
-import { createPlayer, createRoom, updateRoom } from '@/actions';
+import { createPlayer, createRoom, updateRoom } from '@/services';
 import Spinner from '@/components/ui/spinner/spinner';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
