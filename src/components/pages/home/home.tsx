@@ -1,4 +1,4 @@
-import RoomForm from './roomForm/roomForm';
+import RoomForm from './subcomponents/roomForm/roomForm';
 
 const Home = () => {
   return (

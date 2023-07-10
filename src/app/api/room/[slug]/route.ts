@@ -27,9 +27,17 @@ export const PATCH = async (
     const body = await req.json();
     const { slug } = params;
 
-    const res = await updateDoc(doc(db, 'rooms', slug), { ...body });
+    const roomRef = doc(db, 'rooms', slug);
+    await updateDoc(roomRef, { ...body });
 
-    return NextResponse.json({ message: `Room ${slug} updated`, data: res });
+    // Get the updated document
+    const updatedRoomSnapshot = await getDoc(roomRef);
+    const updatedRoom = updatedRoomSnapshot.data();
+
+    return NextResponse.json({
+      message: `Room ${slug} updated`,
+      updatedRoom,
+    });
   } catch (e) {
     return NextResponse.json({ error: e });
   }

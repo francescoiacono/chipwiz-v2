@@ -1,8 +1,9 @@
 export interface Player {
   id: string;
   name: string;
-  isHost: boolean;
   chips: number;
+  currentBet: number;
+  role: Role;
   isTurn: boolean;
   isWinner: boolean;
   isBusted: boolean;
@@ -10,4 +11,9 @@ export interface Player {
   isAllIn: boolean;
   isSmallBlind: boolean;
   isBigBlind: boolean;
+}
+
+export enum Role {
+  HOST = 'host',
+  PLAYER = 'player',
 }
