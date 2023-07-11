@@ -8,7 +8,7 @@ const Page = () => {
 
   return (
     <RoomProvider>
-      <Room sessionId={sessionId} />
+      <Room sessionId={sessionId?.value} />
     </RoomProvider>
   );
 };
