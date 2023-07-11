@@ -1,4 +1,8 @@
-export const createRoom = async (roomName: string, initialChips: number) => {
+export const createRoom = async (
+  roomName: string,
+  initialChips: number,
+  blinds: number[]
+) => {
   try {
     const res = await fetch('/api/room', {
       method: 'POST',
@@ -8,6 +12,7 @@ export const createRoom = async (roomName: string, initialChips: number) => {
       body: JSON.stringify({
         name: roomName || 'Untitled Room',
         initialChips: initialChips || 1000,
+        blinds: blinds || [10, 20],
       }),
     });
 

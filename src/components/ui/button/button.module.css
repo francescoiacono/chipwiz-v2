@@ -8,3 +8,10 @@
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease-out, border-color 0.3s ease-out;
 }
+
+.button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

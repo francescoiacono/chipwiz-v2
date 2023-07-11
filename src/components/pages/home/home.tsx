@@ -1,11 +1,11 @@
 import JoinRoom from './subcomponents/joinRoom/joinRoom';
-import RoomForm from './subcomponents/roomForm/roomForm';
+import NewRoomForm from './subcomponents/roomForm/roomForm';
 
 const Home = () => {
   return (
     <main>
       <h1>Home</h1>
-      <RoomForm />
+      <NewRoomForm />
       <h1>Or</h1>
       <JoinRoom />
     </main>

@@ -5,8 +5,16 @@ import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Player } from '@/data/types';
+import PlayerActions from './subcomponents/playerActions/playerActions';
+import { isPlayerTurn } from '@/utils';
+import RoomInfo from './subcomponents/roomInfo/roomInfo';
+import PlayerInfo from './subcomponents/playerInfo/playerInfo';
 
-const Room = ({ sessionId }: { sessionId?: any }) => {
+interface RoomProps {
+  sessionId?: string;
+}
+
+const Room = ({ sessionId }: RoomProps) => {
   const { slug } = useParams();
   const { room, listenRoom } = useRoom();
 
@@ -35,25 +43,10 @@ const Room = ({ sessionId }: { sessionId?: any }) => {
 
   return (
     <main>
-      {room ? (
+      {room && player ? (
         <div>
-          <h1>{room.name}</h1>
-          <h2>Players in the room:</h2>
-          <ul>
-            {room.players.map((player) => (
-              <li key={player.id}>{player.name}</li>
-            ))}
-          </ul>
-
-          {player ? (
-            <div>
-              <h2>Player: {player.name}</h2>
-              <p>Chips: {player.chips}</p>
-              <p>Current bet: {player.currentBet}</p>
-            </div>
-          ) : (
-            <Spinner />
-          )}
+          <RoomInfo />
+          <PlayerInfo player={player} />
         </div>
       ) : (
         <Spinner />

@@ -24,19 +24,21 @@ export const GET = async () => {
 
 // API route for creating a new room
 export const POST = async (req: Request) => {
-  const body = await req.json();
+  const { name, initialChips, blinds } = await req.json();
 
   const roomId = generateId();
 
   const newRoom: Room = {
-    name: body.name,
+    name: name,
     id: roomId,
-    initialChips: body.initialChips,
+    initialChips: initialChips,
     players: [] as Player[],
-    game: {
-      stage: Stage.PREFLOP,
-      currentPlayerTurn: '',
-    },
+    smallBlind: blinds[0],
+    bigBlind: blinds[1],
+    pot: 0,
+    highestBet: 0,
+    currentTurn: 0,
+    stage: Stage.PREFLOP,
     isStarted: false,
     isFinished: false,
   };

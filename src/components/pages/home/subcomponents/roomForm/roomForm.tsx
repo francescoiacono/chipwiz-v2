@@ -1,31 +1,38 @@
 'use client';
 
 import { createPlayer, createRoom, updateRoom } from '@/services';
-import Spinner from '@/components/ui/spinner/spinner';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Spinner from '@/components/ui/spinner/spinner';
 import Button from '@/components/ui/button/button';
 
-const RoomForm = () => {
+const NewRoomForm = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
     roomName: '',
     username: '',
     chips: 0,
+    blinds: [0, 0],
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]:
-        event.target.name === 'chips'
-          ? Number(event.target.value)
-          : event.target.value,
-    });
+    const { name, value } = event.target;
+    if (name === 'blinds') {
+      const blindValue = Number(value);
+      setFormData({
+        ...formData,
+        blinds: [blindValue, blindValue * 2],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: name === 'chips' ? Number(value) : value,
+      });
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +40,11 @@ const RoomForm = () => {
     setLoading(true);
 
     try {
-      const newRoom = await createRoom(formData.roomName, formData.chips);
+      const newRoom = await createRoom(
+        formData.roomName,
+        formData.chips,
+        formData.blinds
+      );
       const newPlayer = await createPlayer(
         formData.username,
         formData.chips,
@@ -89,6 +100,16 @@ const RoomForm = () => {
         />
       </div>
 
+      <div>
+        <label htmlFor='blinds'>Choose the small blind amount</label>
+        <input
+          onChange={handleChange}
+          type='number'
+          name='blinds'
+          value={formData.blinds[0]}
+        />
+      </div>
+
       {error && <div>Error: {error}</div>}
 
       {loading ? <Spinner /> : <Button type='submit'>Create Room</Button>}
@@ -96,4 +117,4 @@ const RoomForm = () => {
   );
 };
 
-export default RoomForm;
+export default NewRoomForm;
