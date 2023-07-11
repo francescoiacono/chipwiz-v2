@@ -9,6 +9,7 @@
   height: 2rem;
 
   font-weight: bold;
+  user-select: none;
 }
 
 .dealer {

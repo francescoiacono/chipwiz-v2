@@ -14,13 +14,25 @@ const PlayerButton = ({ type }: PlayerButtonProps) => {
   return (
     <>
       {type === ButtonType.Dealer && (
-        <div className={`${styles.dealer} ${styles.button}`}>D</div>
+        <div title='Dealer' className={`${styles.dealer} ${styles.button}`}>
+          D
+        </div>
       )}
       {type === ButtonType.SmallBlind && (
-        <div className={`${styles.smallBlind} ${styles.button}`}>SB</div>
+        <div
+          title='Small Blind'
+          className={`${styles.smallBlind} ${styles.button}`}
+        >
+          SB
+        </div>
       )}
       {type === ButtonType.BigBlind && (
-        <div className={`${styles.bigBlind} ${styles.button}`}>BB</div>
+        <div
+          title='Big Blind'
+          className={`${styles.bigBlind} ${styles.button}`}
+        >
+          BB
+        </div>
       )}
     </>
   );
