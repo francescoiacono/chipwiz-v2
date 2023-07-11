@@ -28,6 +28,7 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
       {room && (
         <div>
           <h2>Player: {player.name}</h2>
+          {playerTurn && <h3>{`It's your turn!`}</h3>}
           <p>Chips: {player.chips}</p>
           <p>Current bet: {player.currentBet}</p>
           {playerTurn ? <PlayerActions /> : <PlayerActions disabled />}

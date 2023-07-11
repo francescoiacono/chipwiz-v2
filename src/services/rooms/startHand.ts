@@ -1,3 +1,6 @@
+import { Room, Stage } from '@/data/types';
+import { updateRoom } from './updateRoom';
+
 export const startHand = async (room: Room) => {
   const updatedRoom = { ...room };
   const { players } = updatedRoom;
@@ -5,37 +8,56 @@ export const startHand = async (room: Room) => {
   // 1. Change room status to started
   updatedRoom.isStarted = true;
 
-  // 2. Set current turn to the first player
-  updatedRoom.currentTurn = 0;
+  // 2 Set room current round to pre-flop
+  updatedRoom.stage = Stage.PREFLOP;
 
-  // 3. Set all players current bet to 0
+  // 3. Find next player index that will have to act
+  let nextTurn = players.findIndex((player) => player.isDealer);
+  nextTurn = nextTurn < 0 ? 0 : nextTurn + 1;
+
+  // 4. Reset all players current bet to 0
   players.forEach((player) => {
     player.currentBet = 0;
+    player.isDealer = player.isSmallBlind = player.isBigBlind = false;
   });
 
-  // 4. Assign roles to players (blinds, dealer) and subtract blinds from their chips
+  // 5. Update players
+  //  5a. Assign roles to players (blinds, dealer)
+  //  5b. Subtract blinds from their chips
+  //  5c. Update player current bet
   if (players.length === 2) {
-    players[0].isDealer = true;
-    players[0].isSmallBlind = true;
-    players[0].chips -= updatedRoom.smallBlind;
-    players[1].isBigBlind = true;
-    players[1].chips -= updatedRoom.bigBlind;
+    const dealerIndex = nextTurn; // When 2 players, dealer is SB
+    const bigBlindIndex = (nextTurn + 1) % players.length;
+
+    players[dealerIndex].isDealer = true;
+    players[dealerIndex].isSmallBlind = true;
+    players[dealerIndex].chips -= updatedRoom.smallBlind;
+    players[dealerIndex].currentBet = updatedRoom.smallBlind;
+    players[bigBlindIndex].isBigBlind = true;
+    players[bigBlindIndex].chips -= updatedRoom.bigBlind;
+    players[bigBlindIndex].currentBet = updatedRoom.bigBlind;
   } else {
-    players[0].isDealer = true;
-    players[1].isSmallBlind = true;
-    players[1].chips -= updatedRoom.smallBlind;
-    players[2].isBigBlind = true;
-    players[2].chips -= updatedRoom.bigBlind;
+    let dealerIndex = nextTurn;
+    let smallBlindIndex = (nextTurn + 1) % players.length;
+    let bigBlindIndex = (nextTurn + 2) % players.length;
+
+    players[dealerIndex].isDealer = true;
+    players[smallBlindIndex].isSmallBlind = true;
+    players[smallBlindIndex].chips -= updatedRoom.smallBlind;
+    players[smallBlindIndex].currentBet = updatedRoom.smallBlind;
+    players[bigBlindIndex].isBigBlind = true;
+    players[bigBlindIndex].chips -= updatedRoom.bigBlind;
+    players[bigBlindIndex].currentBet = updatedRoom.bigBlind;
   }
+
   // 6. Add blinds to the pot
-  updatedRoom.pot += updatedRoom.smallBlind + updatedRoom.bigBlind;
+  updatedRoom.pot = updatedRoom.smallBlind + updatedRoom.bigBlind;
 
-  // 7. Update Room in db
+  // 7. Update room highest bet
+  updatedRoom.highestBet = updatedRoom.bigBlind;
 
-  const res = await updateRoom(updatedRoom.id, updatedRoom);
-  if (res) {
-    console.log('Room updated successfully');
-  } else {
-    console.log('Error updating room');
-  }
+  // 9. Update Room in db
+  await updateRoom(updatedRoom.id, updatedRoom)
+    .then(() => console.log('Room updated successfully'))
+    .catch(() => console.log('Error updating room'));
 };
