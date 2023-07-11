@@ -16,7 +16,7 @@ const Room = ({ sessionId }: { sessionId: any }) => {
         unsubscribe();
       }
     };
-  }, []);
+  }, [listenRoom, slug]);
 
   return (
     <main>
