@@ -3,7 +3,7 @@
 import { Room } from '@/data/types';
 import { db } from '@/lib/firebase';
 import { Unsubscribe, doc, onSnapshot } from 'firebase/firestore';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 interface RoomContextType {
   room: Room | null;
@@ -20,7 +20,7 @@ const RoomContext = createContext<RoomContextType>({
 export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
   const [room, setRoom] = useState<Room | null>(null);
 
-  const listenRoom = (roomId: string) => {
+  const listenRoom = useCallback((roomId: string) => {
     const docRef = doc(db, 'rooms', roomId);
 
     if (!docRef) return null;
@@ -28,7 +28,7 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
       setRoom(doc.data() as Room);
     });
     return unsub;
-  };
+  }, []);
 
   return (
     <RoomContext.Provider value={{ room, setRoom, listenRoom }}>

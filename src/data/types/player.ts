@@ -1,9 +1,10 @@
 export interface Player {
   id: string;
   name: string;
+  role: Role;
+  session: string;
   chips: number;
   currentBet: number;
-  role: Role;
   isTurn: boolean;
   isWinner: boolean;
   isBusted: boolean;

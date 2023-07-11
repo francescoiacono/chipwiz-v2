@@ -1,6 +1,6 @@
 import { Player, Role } from '@/data/types';
 import { db } from '@/lib/firebase';
-import { generateId } from '@/utils';
+import { generateId, generateSessionId } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
 // API route for creating a new room
@@ -19,11 +19,14 @@ export const POST = async (req: Request) => {
   }
 
   const playerId = generateId();
+  const sessionId = generateSessionId();
+  NextResponse.next().cookies.set('sessionId', sessionId);
 
   const newPlayer: Player = {
     id: playerId,
     name: username,
     chips,
+    session: sessionId,
     role: host ? Role.HOST : Role.PLAYER,
     currentBet: 0,
     isTurn: false,

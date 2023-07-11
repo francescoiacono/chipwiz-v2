@@ -10,3 +10,12 @@ export const generateId = () => {
   }
   return id;
 };
+
+export const generateSessionId = () => {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let id = '';
+  for (let i = 0; i < 16; i++) {
+    id += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return id;
+};
