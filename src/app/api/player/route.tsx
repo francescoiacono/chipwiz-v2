@@ -35,6 +35,7 @@ export const POST = async (req: NextRequest) => {
     isBusted: false,
     isFolded: false,
     isAllIn: false,
+    isDealer: false,
     isSmallBlind: false,
     isBigBlind: false,
   };

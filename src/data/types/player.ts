@@ -10,6 +10,7 @@ export interface Player {
   isBusted: boolean;
   isFolded: boolean;
   isAllIn: boolean;
+  isDealer: boolean;
   isSmallBlind: boolean;
   isBigBlind: boolean;
 }

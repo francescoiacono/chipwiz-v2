@@ -1,5 +1,5 @@
 import { useRoom } from '@/components/providers';
-import { Player } from '@/data/types';
+import PlayerList from '../playerList/playerList';
 
 const RoomInfo = () => {
   const { room } = useRoom();
@@ -8,17 +8,23 @@ const RoomInfo = () => {
     <>
       {room && (
         <div>
-          <h1>{room.name}</h1>
+          <div>
+            <h1>{room.name}</h1>
+            <p>
+              Game Status:{' '}
+              {room.isStarted ? (
+                <span>(Game Started)</span>
+              ) : (
+                <span>(Waiting...)</span>
+              )}
+            </p>
+          </div>
           <p>Room Pot: {room.pot}</p>
           <p>
             Blinds: {room.smallBlind} / {room.bigBlind}
           </p>
-          <p>Players in the room:</p>
-          <ul>
-            {room.players.map((player: Player) => (
-              <li key={player.id}>{player.name}</li>
-            ))}
-          </ul>
+
+          <PlayerList />
           <p>{`Player's Turn: ${room.players[room.currentTurn].name}`}</p>
         </div>
       )}

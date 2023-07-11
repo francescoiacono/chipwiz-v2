@@ -1,0 +1,27 @@
+.button {
+  border-radius: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  font-weight: bold;
+}
+
+.dealer {
+  color: white;
+  background-color: black;
+}
+
+.smallBlind {
+  color: white;
+  background-color: blue;
+}
+
+.bigBlind {
+  color: white;
+  background-color: red;
+}

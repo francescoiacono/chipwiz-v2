@@ -5,8 +5,6 @@ import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Player } from '@/data/types';
-import PlayerActions from './subcomponents/playerActions/playerActions';
-import { isPlayerTurn } from '@/utils';
 import RoomInfo from './subcomponents/roomInfo/roomInfo';
 import PlayerInfo from './subcomponents/playerInfo/playerInfo';
 

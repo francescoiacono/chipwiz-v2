@@ -1,0 +1,11 @@
+.listItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
