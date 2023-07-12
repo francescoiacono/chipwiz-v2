@@ -14,7 +14,6 @@ const RoomInfo = () => {
   const handleHandReset = useCallback(async () => {
     if (room) {
       await startHand(room);
-      setWinner(null);
     }
   }, [room]);
 
@@ -38,8 +37,7 @@ const RoomInfo = () => {
         await checkHandEnd(room);
       }
 
-      const { winner } = room;
-      if (winner) setWinner(winner || null);
+      setWinner(room.winner || null);
     };
 
     handleRoundEndAndSetWinner();
