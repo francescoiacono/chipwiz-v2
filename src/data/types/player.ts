@@ -5,7 +5,7 @@ export interface Player {
   session: string;
   chips: number;
   currentBet: number;
-  isTurn: boolean;
+  hasActed: boolean;
   isWinner: boolean;
   isBusted: boolean;
   isFolded: boolean;

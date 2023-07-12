@@ -1,5 +1,5 @@
 import { Room, Stage } from '@/data/types';
-import { updateRoom } from './updateRoom';
+import { updateRoom } from '..';
 
 export const startHand = async (room: Room) => {
   const updatedRoom = { ...room };
@@ -14,6 +14,9 @@ export const startHand = async (room: Room) => {
   // 3. Find next player index that will have to act
   let nextTurn = players.findIndex((player) => player.isDealer);
   nextTurn = nextTurn < 0 ? 0 : nextTurn + 1;
+
+  // 3a. Keep track of initial turn position
+  updatedRoom.roundStart = nextTurn;
 
   // 4. Reset all players current bet to 0
   players.forEach((player) => {

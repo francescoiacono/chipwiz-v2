@@ -11,6 +11,7 @@ export interface Room {
   highestBet: number;
   stage: Stage;
   currentTurn: number;
+  roundStart: number;
   isStarted: boolean;
   isFinished: boolean;
 }

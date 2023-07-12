@@ -1,7 +1,8 @@
 export * from './rooms/createRoom';
 export * from './rooms/updateRoom';
 export * from './rooms/findRoom';
-export * from './rooms/startHand';
+
+export * from './game/startHand';
 
 export * from './players/createPlayer';
 export * from './players/updatePlayer';

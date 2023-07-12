@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     session: sessionId,
     role: host ? Role.HOST : Role.PLAYER,
     currentBet: 0,
-    isTurn: false,
+    hasActed: false,
     isWinner: false,
     isBusted: false,
     isFolded: false,

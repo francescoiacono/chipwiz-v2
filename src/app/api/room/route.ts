@@ -39,6 +39,7 @@ export const POST = async (req: Request) => {
     highestBet: 0,
     currentTurn: 0,
     stage: Stage.PREFLOP,
+    roundStart: 0,
     isStarted: false,
     isFinished: false,
   };
