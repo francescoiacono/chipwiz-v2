@@ -1,50 +1,87 @@
+import Button from '@/components/ui/button/button';
+import PlayerList from '../playerList/playerList';
+import React from 'react';
 import { useRoom } from '@/components/providers';
 import { useRound } from '@/hooks/playerActions/useRound';
-import { useEffect } from 'react';
-import PlayerList from '../playerList/playerList';
+import { useEffect, useState, useCallback } from 'react';
+import { Player, Stage } from '@/data/types';
+import { startHand } from '@/services';
 
 const RoomInfo = () => {
   const { room } = useRoom();
   const { checkRoundEnd } = useRound();
+  const [winner, setWinner] = useState<Player | null>(null);
 
-  // TODO: Find a way to get checkRoundEnd to run only once
+  const handleHandReset = useCallback(async () => {
+    if (room) {
+      await startHand(room);
+      setWinner(null);
+    }
+  }, [room]);
+
   useEffect(() => {
+    if (!room) return;
+
     const handleRoundEnd = async () => {
-      if (room && room.isStarted) {
+      if (room.isStarted && room.stage !== Stage.SHOWDOWN) {
         await checkRoundEnd(room);
       }
     };
 
+    const setRoomWinner = () => {
+      const winner = room.players.find((player) => player.isWinner);
+      if (winner) {
+        setWinner(winner);
+      } else {
+        setWinner(null);
+      }
+    };
+
     handleRoundEnd();
-  }, [checkRoundEnd, room]);
+    setRoomWinner();
+  }, [room, checkRoundEnd, winner]);
+
+  if (!room) return null;
+
+  const {
+    name,
+    isStarted,
+    pot,
+    smallBlind,
+    bigBlind,
+    stage,
+    players,
+    currentTurn,
+  } = room;
 
   return (
-    <>
-      {room && (
+    <div>
+      <div>
+        <h1>{name}</h1>
+        <p>
+          Game Status:{' '}
+          {isStarted ? <span>(Game Started)</span> : <span>(Waiting...)</span>}
+        </p>
+      </div>
+      <p>Room Pot: {pot}</p>
+      <p>
+        Blinds: {smallBlind} / {bigBlind}
+      </p>
+      <p>Stage: {stage}</p>
+      <PlayerList />
+      <p>
+        Player{`'`}s Turn: {players[currentTurn].name}
+      </p>
+      {winner ? (
         <div>
-          <div>
-            <h1>{room.name}</h1>
-            <p>
-              Game Status:{' '}
-              {room.isStarted ? (
-                <span>(Game Started)</span>
-              ) : (
-                <span>(Waiting...)</span>
-              )}
-            </p>
-          </div>
-          <p>Room Pot: {room.pot}</p>
-          <p>
-            Blinds: {room.smallBlind} / {room.bigBlind}
-          </p>
-          <p>Stage: {room.stage}</p>
-
-          <PlayerList />
-          <p>{`Player's Turn: ${room.players[room.currentTurn].name}`}</p>
+          <p>Winner: {winner.name}</p>
+          <Button onClick={handleHandReset}>Next Hand</Button>
         </div>
+      ) : (
+        <p>Select winner </p>
       )}
-    </>
+    </div>
   );
 };
 
-export default RoomInfo;
+export default React.memo(RoomInfo);

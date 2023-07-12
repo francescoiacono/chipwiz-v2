@@ -14,6 +14,7 @@ export const resetStage = (room: Room) => {
     player.isFolded = false;
     player.isAllIn = false;
     player.hasActed = false;
+    player.isWinner = false;
   });
 
   // 3. Update room highest bet

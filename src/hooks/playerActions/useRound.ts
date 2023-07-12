@@ -2,7 +2,7 @@ import { Room, Stage } from '@/data/types';
 import { updateStage } from '@/utils';
 import { updateRoom } from '../../services';
 import { useCallback } from 'react';
-import { resetStage } from '@/services/game/resetStage';
+import { getPlayersInGame } from '@/utils/getPlayersInGame';
 
 export const useRound = () => {
   const checkRoundEnd = useCallback(async (room: Room) => {
@@ -17,19 +17,20 @@ export const useRound = () => {
     // 2. If all players have acted, update the stage
     if (allPlayersActed) {
       console.log('ALL PLAYERS ACTED');
-      if (updatedRoom.stage === Stage.SHOWDOWN) {
-        updatedRoom = { ...resetStage(updatedRoom) };
-      } else {
-        updatedRoom.stage = updateStage(updatedRoom.stage);
-        updatedRoom.roundStart = updatedRoom.currentTurn;
-        updatedRoom.highestBet = 0;
+      updatedRoom.stage = updateStage(updatedRoom.stage);
+      updatedRoom.roundStart = updatedRoom.currentTurn;
+      updatedRoom.highestBet = 0;
 
-        // 3. Reset all players' current bets
-        updatedRoom.players = players.map((player) => ({
-          ...player,
-          currentBet: 0,
-          hasActed: false,
-        }));
+      // 3. Reset all players' current bets
+      updatedRoom.players = players.map((player) => ({
+        ...player,
+        currentBet: 0,
+        hasActed: false,
+      }));
+
+      if (getPlayersInGame(players).length === 1) {
+        updatedRoom.stage = Stage.SHOWDOWN;
+        players[room.currentTurn].isWinner = true;
       }
 
       // 4. Update room in db

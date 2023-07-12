@@ -1,5 +1,5 @@
 import { useRoom } from '@/components/providers';
-import { useCall, useCheck, useRaise } from '@/hooks/playerActions';
+import { useCall, useCheck, useRaise, useFold } from '@/hooks/playerActions';
 import Button from '@/components/ui/button/button';
 
 interface PlayerActionsProps {
@@ -8,9 +8,11 @@ interface PlayerActionsProps {
 
 const PlayerActions = ({ disabled }: PlayerActionsProps) => {
   const { room } = useRoom();
+
   const { call } = useCall();
   const { check } = useCheck();
   const { raise } = useRaise();
+  const { fold } = useFold();
 
   const handleCall = async () => {
     if (room) await call(room);
@@ -24,6 +26,10 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
     if (room) await raise(20, room);
   };
 
+  const handleFold = async () => {
+    if (room) await fold(room);
+  };
+
   return (
     <section>
       <Button disabled={disabled} onClick={handleCall}>
@@ -35,7 +41,9 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
       <Button disabled={disabled} onClick={handleRaise}>
         Raise
       </Button>
-      <Button disabled={disabled}>Fold</Button>
+      <Button disabled={disabled} onClick={handleFold}>
+        Fold
+      </Button>
     </section>
   );
 };
