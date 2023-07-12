@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { useRaise } from '@/components/hooks/playerActions';
 import { useRoom } from '@/components/providers';
 import Button from '@/components/ui/button/button';
 import Slider from '@/components/ui/slider/slider';
 import styles from './raiseAction.module.css';
-import { useState } from 'react';
 
 interface RaiseActionProps {
   disabled?: boolean;

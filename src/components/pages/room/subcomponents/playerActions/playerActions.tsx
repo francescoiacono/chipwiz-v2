@@ -1,8 +1,10 @@
 import { useRoom } from '@/components/providers';
-import { useCall, useCheck, useFold } from '@/components/hooks/playerActions';
-import Button from '@/components/ui/button/button';
-import styles from './playerActions.module.css';
 import RaiseAction from './raiseAction/raiseAction';
+import CallAction from './callAction/callAction';
+import CheckAction from './checkAction/checkAction';
+import FoldAction from './foldAction/foldAction';
+
+import styles from './playerActions.module.css';
 
 interface PlayerActionsProps {
   disabled?: boolean;
@@ -10,22 +12,6 @@ interface PlayerActionsProps {
 
 const PlayerActions = ({ disabled }: PlayerActionsProps) => {
   const { room } = useRoom();
-
-  const { call } = useCall();
-  const { check } = useCheck();
-  const { fold } = useFold();
-
-  const handleCall = async () => {
-    if (room) await call(room);
-  };
-
-  const handleCheck = async () => {
-    if (room) await check(room);
-  };
-
-  const handleFold = async () => {
-    if (room) await fold(room);
-  };
 
   if (!room) return null;
 
@@ -38,20 +24,10 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
 
   return (
     <section className={styles.actionsWrapper}>
-      {canCall && (
-        <Button disabled={disabled} onClick={handleCall}>
-          Call
-        </Button>
-      )}
-      {canCheck && (
-        <Button disabled={disabled} onClick={handleCheck}>
-          Check
-        </Button>
-      )}
+      {canCall && <CallAction disabled={disabled} />}
+      {canCheck && <CheckAction disabled={disabled} />}
       {canRaise && <RaiseAction disabled={disabled} />}
-      <Button disabled={disabled} onClick={handleFold}>
-        Fold
-      </Button>
+      <FoldAction disabled={disabled} />
     </section>
   );
 };
