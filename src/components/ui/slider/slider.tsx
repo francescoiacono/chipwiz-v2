@@ -12,6 +12,7 @@ const Slider = ({ onChange, min, max, value }: SliderProps) => {
         type='range'
         min={min || 1}
         max={max || 100}
+        value={value || 1}
         id='raiseSlider'
         onChange={(e) => onChange(parseInt(e.target.value))}
       />

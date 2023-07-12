@@ -6,10 +6,20 @@ import { getPlayersInGame } from '@/utils/getPlayersInGame';
 
 export const useHand = () => {
   const checkHandEnd = useCallback(async (room: Room) => {
-    // 1. Check if all players have acted
     let updatedRoom = { ...room };
     const { players } = updatedRoom;
 
+    if (getPlayersInGame(players).length === 1) {
+      updatedRoom.stage = Stage.SHOWDOWN;
+      updatedRoom.winner = players[room.currentTurn];
+
+      await updateRoom(updatedRoom.id, updatedRoom)
+        .then(() => console.log('Room updated successfully'))
+        .catch(() => console.log('Error updating room'));
+      return;
+    }
+
+    // 1. Check if all players have acted
     const allPlayersActed = players.every(
       (player) => player.hasActed || player.isFolded
     );
@@ -27,11 +37,6 @@ export const useHand = () => {
         currentBet: 0,
         hasActed: false,
       }));
-
-      if (getPlayersInGame(players).length === 1) {
-        updatedRoom.stage = Stage.SHOWDOWN;
-        updatedRoom.winner = players[room.currentTurn];
-      }
 
       // 4. Update room in db
       await updateRoom(updatedRoom.id, updatedRoom)
