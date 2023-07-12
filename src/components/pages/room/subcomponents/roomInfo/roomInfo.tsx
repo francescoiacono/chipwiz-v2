@@ -64,7 +64,7 @@ const RoomInfo = () => {
         <h1>{name}</h1>
         <p>
           Game Status: {isStarted && <span>(Game Started)</span>}{' '}
-          {!isStarted && <span>(Waiting...)</span>}
+          {!isStarted && <span>(Waiting for host...)</span>}
         </p>
       </div>
       <p>Room Pot: {pot}</p>

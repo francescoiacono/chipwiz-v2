@@ -32,7 +32,9 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
           <p>Chips: {player.chips}</p>
           <p>Current bet: {player.currentBet}</p>
           <p>To call: {room.highestBet - player.currentBet}</p>
-          {playerTurn ? <PlayerActions /> : <PlayerActions disabled />}
+          {room.isStarted && (
+            <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>
+          )}
           {isPlayerHost && !room.isStarted && (
             <Button onClick={() => startHand(room)}>Start Game</Button>
           )}
