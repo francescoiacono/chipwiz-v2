@@ -6,7 +6,6 @@ export interface Player {
   chips: number;
   currentBet: number;
   hasActed: boolean;
-  isWinner: boolean;
   isBusted: boolean;
   isFolded: boolean;
   isAllIn: boolean;

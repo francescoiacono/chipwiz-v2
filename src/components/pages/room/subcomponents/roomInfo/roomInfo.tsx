@@ -1,11 +1,10 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '@/components/ui/button/button';
 import PlayerList from '../playerList/playerList';
-import React from 'react';
 import { useRoom } from '@/components/providers';
 import { useRound } from '@/hooks/playerActions/useRound';
-import { useEffect, useState, useCallback } from 'react';
 import { Player, Stage } from '@/data/types';
-import { startHand } from '@/services';
+import { startHand, updateRoom } from '@/services';
 
 const RoomInfo = () => {
   const { room } = useRoom();
@@ -19,27 +18,32 @@ const RoomInfo = () => {
     }
   }, [room]);
 
+  const handleWinnerSelection = useCallback(
+    async (player: Player) => {
+      if (room) {
+        await updateRoom(room.id, {
+          ...room,
+          winner: player,
+        });
+      }
+    },
+    [room]
+  );
+
   useEffect(() => {
     if (!room) return;
 
-    const handleRoundEnd = async () => {
+    const handleRoundEndAndSetWinner = async () => {
       if (room.isStarted && room.stage !== Stage.SHOWDOWN) {
         await checkRoundEnd(room);
       }
+
+      const { winner } = room;
+      if (winner) setWinner(winner || null);
     };
 
-    const setRoomWinner = () => {
-      const winner = room.players.find((player) => player.isWinner);
-      if (winner) {
-        setWinner(winner);
-      } else {
-        setWinner(null);
-      }
-    };
-
-    handleRoundEnd();
-    setRoomWinner();
-  }, [room, checkRoundEnd, winner]);
+    handleRoundEndAndSetWinner();
+  }, [room, checkRoundEnd]);
 
   if (!room) return null;
 
@@ -59,8 +63,8 @@ const RoomInfo = () => {
       <div>
         <h1>{name}</h1>
         <p>
-          Game Status:{' '}
-          {isStarted ? <span>(Game Started)</span> : <span>(Waiting...)</span>}
+          Game Status: {isStarted && <span>(Game Started)</span>}{' '}
+          {!isStarted && <span>(Waiting...)</span>}
         </p>
       </div>
       <p>Room Pot: {pot}</p>
@@ -72,13 +76,32 @@ const RoomInfo = () => {
       <p>
         Player{`'`}s Turn: {players[currentTurn].name}
       </p>
-      {winner ? (
+      {winner && (
         <div>
           <p>Winner: {winner.name}</p>
           <Button onClick={handleHandReset}>Next Hand</Button>
         </div>
-      ) : (
-        <p>Select winner </p>
+      )}
+
+      {!winner && stage === Stage.SHOWDOWN && (
+        <>
+          <p>Select winner </p>
+          <ul>
+            {players.map((player) => {
+              if (player.isFolded) {
+                return null;
+              } else {
+                return (
+                  <li key={player.id}>
+                    <Button onClick={() => handleWinnerSelection(player)}>
+                      {player.name}
+                    </Button>
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        </>
       )}
     </div>
   );

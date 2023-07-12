@@ -30,7 +30,7 @@ export const useRound = () => {
 
       if (getPlayersInGame(players).length === 1) {
         updatedRoom.stage = Stage.SHOWDOWN;
-        players[room.currentTurn].isWinner = true;
+        updatedRoom.winner = players[room.currentTurn];
       }
 
       // 4. Update room in db

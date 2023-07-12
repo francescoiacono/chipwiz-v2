@@ -31,7 +31,6 @@ export const POST = async (req: NextRequest) => {
     role: host ? Role.HOST : Role.PLAYER,
     currentBet: 0,
     hasActed: false,
-    isWinner: false,
     isBusted: false,
     isFolded: false,
     isAllIn: false,

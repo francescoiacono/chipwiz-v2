@@ -26,7 +26,6 @@ export const startHand = async (room: Room) => {
     player.isFolded = false;
     player.isAllIn = false;
     player.hasActed = false;
-    player.isWinner = false;
   });
 
   // 5. Update players
@@ -63,6 +62,9 @@ export const startHand = async (room: Room) => {
 
   // 7. Update room highest bet
   updatedRoom.highestBet = updatedRoom.bigBlind;
+
+  // 8. Update room winner
+  updatedRoom.winner = null;
 
   // 9. Update Room in db
   await updateRoom(updatedRoom.id, updatedRoom)

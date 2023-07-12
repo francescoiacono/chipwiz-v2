@@ -31,6 +31,7 @@ export const POST = async (req: Request) => {
   const newRoom: Room = {
     name: name,
     id: roomId,
+    winner: null,
     initialChips: initialChips,
     players: [] as Player[],
     smallBlind: blinds[0],
