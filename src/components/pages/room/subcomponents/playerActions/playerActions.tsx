@@ -1,6 +1,12 @@
 import { useRoom } from '@/components/providers';
-import { useCall, useCheck, useRaise, useFold } from '@/hooks/playerActions';
+import {
+  useCall,
+  useCheck,
+  useRaise,
+  useFold,
+} from '@/components/hooks/playerActions';
 import Button from '@/components/ui/button/button';
+import styles from './playerActions.module.css';
 
 interface PlayerActionsProps {
   disabled?: boolean;
@@ -31,7 +37,7 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
   };
 
   return (
-    <section>
+    <section className={styles.actionsWrapper}>
       <Button disabled={disabled} onClick={handleCall}>
         Call
       </Button>

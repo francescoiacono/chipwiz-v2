@@ -2,9 +2,9 @@ import { Player, Role } from '@/data/types';
 import { isPlayerTurn } from '@/utils';
 import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
-import { startHand } from '@/services';
 import PlayerActions from '../playerActions/playerActions';
 import Button from '@/components/ui/button/button';
+import { useHand } from '@/components/hooks/gameActions';
 
 interface PlayerInfoProps {
   player: Player;
@@ -12,6 +12,7 @@ interface PlayerInfoProps {
 
 const PlayerInfo = ({ player }: PlayerInfoProps) => {
   const { room } = useRoom();
+  const { startHand } = useHand();
 
   const [playerTurn, setPlayerTurn] = useState(false);
   const [isPlayerHost, setIsPlayerHost] = useState(false);

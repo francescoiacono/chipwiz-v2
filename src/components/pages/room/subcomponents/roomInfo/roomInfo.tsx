@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Button from '@/components/ui/button/button';
 import PlayerList from '../playerList/playerList';
 import { useRoom } from '@/components/providers';
-import { useRound } from '@/hooks/playerActions/useRound';
 import { Player, Stage } from '@/data/types';
-import { startHand, updateRoom } from '@/services';
+import { updateRoom } from '@/services';
+import { useHand } from '@/components/hooks/gameActions';
 
 const RoomInfo = () => {
   const { room } = useRoom();
-  const { checkRoundEnd } = useRound();
+  const { startHand, checkHandEnd } = useHand();
   const [winner, setWinner] = useState<Player | null>(null);
 
   const handleHandReset = useCallback(async () => {
@@ -35,7 +35,7 @@ const RoomInfo = () => {
 
     const handleRoundEndAndSetWinner = async () => {
       if (room.isStarted && room.stage !== Stage.SHOWDOWN) {
-        await checkRoundEnd(room);
+        await checkHandEnd(room);
       }
 
       const { winner } = room;
@@ -43,7 +43,7 @@ const RoomInfo = () => {
     };
 
     handleRoundEndAndSetWinner();
-  }, [room, checkRoundEnd]);
+  }, [room, checkHandEnd]);
 
   if (!room) return null;
 
