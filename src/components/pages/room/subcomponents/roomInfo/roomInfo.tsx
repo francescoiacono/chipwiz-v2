@@ -23,6 +23,16 @@ const RoomInfo = () => {
         await updateRoom(room.id, {
           ...room,
           winner: player,
+          players: room.players.map((p) => {
+            if (p.id === player.id) {
+              return {
+                ...p,
+                chips: p.chips + room.pot,
+              };
+            } else {
+              return p;
+            }
+          }),
         });
       }
     },
