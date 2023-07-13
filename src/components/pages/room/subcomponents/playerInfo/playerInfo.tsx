@@ -19,14 +19,6 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
 
   useEffect(() => {
     if (room) {
-      console.log(
-        'Bet: ',
-        player.currentBet,
-        'Highest: ',
-        room.highestBet,
-        'To call: ',
-        room.highestBet - player.currentBet
-      );
       setPlayerTurn(isPlayerTurn(player.id, room));
       setIsPlayerHost(player.role === Role.HOST);
     }
@@ -39,7 +31,12 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
           <h2>Player: {player.name}</h2>
           <p>Chips: {player.chips}</p>
           <p>Current bet: {player.currentBet}</p>
-          <p>To call: {room.highestBet - player.currentBet}</p>
+          <p>
+            To call:
+            {room.highestBet > player.chips
+              ? player.chips
+              : room.highestBet - player.currentBet}
+          </p>
           {room.isStarted && (
             <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>
           )}

@@ -23,7 +23,9 @@ export const GET = async (
       });
     }
   } catch (e) {
-    console.log('ERROR:', e);
+    console.error(`Error in GET player/[slug]:`, e);
+
+    return NextResponse.json({ error: e });
   }
 };
 
@@ -47,6 +49,7 @@ export const PATCH = async (
       updatedPlayer: updatedPlayer,
     });
   } catch (e) {
+    console.error(`Error in PATCH player/[slug]:`, e);
     return NextResponse.json({ error: e });
   }
 };

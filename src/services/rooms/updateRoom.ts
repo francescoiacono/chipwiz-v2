@@ -19,5 +19,6 @@ export const updateRoom = async (
     else throw new Error('Could not update room');
   } catch (error) {
     console.error("There's been an error:", error);
+    return null;
   }
 };

@@ -15,7 +15,7 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
 
   if (!room) return null;
 
-  const { players, currentTurn, highestBet } = room;
+  const { players, currentTurn, highestBet, winner } = room;
   const currentPlayer = players[currentTurn];
 
   const canRaise = currentPlayer.chips > highestBet;
@@ -24,10 +24,14 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
 
   return (
     <section className={styles.actionsWrapper}>
-      {canCall && <CallAction disabled={disabled} />}
-      {canCheck && <CheckAction disabled={disabled} />}
-      {canRaise && <RaiseAction disabled={disabled} />}
-      <FoldAction disabled={disabled} />
+      {!winner && (
+        <>
+          {canCall && <CallAction disabled={disabled} />}
+          {canCheck && <CheckAction disabled={disabled} />}
+          {canRaise && <RaiseAction disabled={disabled} />}
+          <FoldAction disabled={disabled} />
+        </>
+      )}
     </section>
   );
 };

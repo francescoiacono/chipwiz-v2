@@ -23,7 +23,8 @@ export const GET = async (
       });
     }
   } catch (e) {
-    console.log('SUPER ERROR:', e);
+    console.error(`Error in GET room/[slug]:`, e);
+    return NextResponse.json({ error: e });
   }
 };
 
@@ -47,6 +48,7 @@ export const PATCH = async (
       updatedRoom,
     });
   } catch (e) {
+    console.error(`Error in PATCH room/[slug]:`, e);
     return NextResponse.json({ error: e });
   }
 };

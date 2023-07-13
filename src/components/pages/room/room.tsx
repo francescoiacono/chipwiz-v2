@@ -19,7 +19,7 @@ const Room = ({ sessionId }: RoomProps) => {
   const [player, setPlayer] = useState<Player | undefined>(undefined);
 
   useEffect(() => {
-    console.log('USE EFFECT ROOM 1');
+    console.log(`[EFFECT Listening to room]`);
     const unsubscribe = listenRoom(slug);
 
     return () => {
@@ -30,14 +30,16 @@ const Room = ({ sessionId }: RoomProps) => {
   }, [listenRoom, slug]);
 
   useEffect(() => {
-    console.log('USE EFFECT ROOM 2');
+    console.log(`[EFFECT Setting player]`);
     if (room) {
       const currentPlayer = room.players.find(
         (player) => player.session === sessionId
       );
+
       setPlayer(currentPlayer);
+      console.log(player);
     }
-  }, [room, sessionId]);
+  }, [player, room, sessionId]);
 
   return (
     <main>

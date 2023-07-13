@@ -4,7 +4,7 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useCall = () => {
   const call = async (room: Room) => {
-    console.log('CALLING');
+    console.log('[CALLING]');
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -39,9 +39,7 @@ export const useCall = () => {
       );
 
       // 3d. Update room
-      await updateRoom(updatedRoom.id, updatedRoom)
-        .then(() => console.log('Room updated successfully'))
-        .catch(() => console.log('Error updating room'));
+      await updateRoom(updatedRoom.id, updatedRoom);
     }
     // 4. There is no amount to call
   };

@@ -14,15 +14,13 @@ export const useHand = () => {
       updatedRoom.stage = Stage.SHOWDOWN;
       updatedRoom.winner = players[room.currentTurn];
 
-      await updateRoom(updatedRoom.id, updatedRoom)
-        .then(() => console.log('Room updated successfully'))
-        .catch(() => console.log('Error updating room'));
+      await updateRoom(updatedRoom.id, updatedRoom);
       return;
     }
 
     // 1. If all players have acted, update the stage
     if (allPlayersActed(players)) {
-      console.log('ALL PLAYERS ACTED');
+      console.log('[ALL PLAYERS HAVE ACTED]');
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
       updatedRoom.highestBet = 0;
@@ -35,9 +33,7 @@ export const useHand = () => {
       }));
 
       // 4. Update room in db
-      await updateRoom(updatedRoom.id, updatedRoom)
-        .then(() => console.log('Room updated successfully'))
-        .catch(() => console.log('Error updating room'));
+      await updateRoom(updatedRoom.id, updatedRoom);
     }
   }, []);
 
@@ -106,9 +102,7 @@ export const useHand = () => {
     updatedRoom.winner = null;
 
     // 9. Update Room in db
-    await updateRoom(updatedRoom.id, updatedRoom)
-      .then(() => console.log('Room updated successfully'))
-      .catch(() => console.log('Error updating room'));
+    await updateRoom(updatedRoom.id, updatedRoom);
   }, []);
 
   return { updateHand, startHand };

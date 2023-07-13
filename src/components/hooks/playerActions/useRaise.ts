@@ -4,7 +4,7 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useRaise = () => {
   const raise = async (raiseAmount: number, room: Room) => {
-    console.log('RAISE');
+    console.log(`[RAISING ${raiseAmount}]`);
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -56,9 +56,7 @@ export const useRaise = () => {
     );
 
     // 11. Update room
-    await updateRoom(updatedRoom.id, updatedRoom)
-      .then(() => console.log('Room updated successfully'))
-      .catch(() => console.log('Error updating room'));
+    await updateRoom(updatedRoom.id, updatedRoom);
   };
 
   return { raise };
