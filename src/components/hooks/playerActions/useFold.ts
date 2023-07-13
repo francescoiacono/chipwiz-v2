@@ -4,7 +4,7 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useFold = () => {
   const fold = async (room: Room) => {
-    console.log('[FOLDING]');
+    // console.log('[FOLDING]');
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 

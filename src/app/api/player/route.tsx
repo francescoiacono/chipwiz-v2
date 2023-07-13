@@ -29,7 +29,7 @@ export const POST = async (req: NextRequest) => {
     chips,
     session: sessionId,
     role: host ? Role.HOST : Role.PLAYER,
-    currentBet: 0,
+    roundBet: 0,
     hasActed: false,
     isBusted: false,
     isFolded: false,

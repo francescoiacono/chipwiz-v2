@@ -4,7 +4,7 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useRaise = () => {
   const raise = async (raiseAmount: number, room: Room) => {
-    console.log(`[RAISING ${raiseAmount}]`);
+    // console.log(`[RAISING ${raiseAmount}]`);
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -35,14 +35,14 @@ export const useRaise = () => {
     currentPlayer.chips -= raiseAmount;
 
     // 6. Update player current bet and set that player has acted
-    currentPlayer.currentBet += raiseAmount;
+    currentPlayer.roundBet += raiseAmount;
     currentPlayer.hasActed = true;
 
     // 7. Update room pot
     updatedRoom.pot += raiseAmount;
 
     // 8. Update room highest bet
-    updatedRoom.highestBet += currentPlayer.currentBet;
+    updatedRoom.highestBet += currentPlayer.roundBet;
 
     // 9. Updated player isAllIn
     if (currentPlayer.chips <= 0) {

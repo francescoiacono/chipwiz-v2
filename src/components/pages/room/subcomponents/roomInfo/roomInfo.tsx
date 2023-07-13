@@ -24,7 +24,6 @@ const RoomInfo = () => {
           if (p.id === player.id) {
             return {
               ...p,
-              isWinner: true,
               chips: p.chips + room.pot,
             };
           }

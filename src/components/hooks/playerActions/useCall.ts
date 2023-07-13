@@ -4,7 +4,7 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useCall = () => {
   const call = async (room: Room) => {
-    console.log('[CALLING]');
+    // console.log('[CALLING]');
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -12,22 +12,22 @@ export const useCall = () => {
     const currentPlayer = players[room.currentTurn];
 
     // 2. Calculate the amount to call
-    const amountToCall = updatedRoom.highestBet - currentPlayer.currentBet;
+    const amountToCall = updatedRoom.highestBet - currentPlayer.roundBet;
 
     // 3. If there is an amount to call
     if (amountToCall > 0) {
       // 3a. But the player has less chips than the amount to call, then go all in
       if (currentPlayer.chips < amountToCall) {
-        currentPlayer.currentBet += currentPlayer.chips;
+        currentPlayer.roundBet += currentPlayer.chips;
         currentPlayer.chips = 0;
         currentPlayer.isAllIn = true;
         currentPlayer.hasActed = true;
-        updatedRoom.pot += currentPlayer.currentBet;
+        updatedRoom.pot += currentPlayer.roundBet;
       }
       // 3b. Else, call the amount
       else {
         currentPlayer.hasActed = true;
-        currentPlayer.currentBet += amountToCall;
+        currentPlayer.roundBet += amountToCall;
         currentPlayer.chips -= amountToCall;
         updatedRoom.pot += amountToCall;
       }

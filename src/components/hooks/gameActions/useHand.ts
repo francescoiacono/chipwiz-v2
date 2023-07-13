@@ -1,4 +1,4 @@
-import { Room, Stage } from '@/data/types';
+import { Player, Room, Stage } from '@/data/types';
 import {
   allPlayersActed,
   getBustedPlayers,
@@ -6,18 +6,36 @@ import {
   updateStage,
 } from '@/utils';
 import { updateRoom } from '@/services';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { getPlayersInGame } from '@/utils/getPlayersInGame';
 
 export const useHand = () => {
+  const [handWinner, setHandWinner] = useState<Player | null>(null);
+
   // Function that update game stage
   const updateHand = useCallback(async (room: Room) => {
     let updatedRoom = { ...room };
     const { players } = updatedRoom;
+    const playingPlayers = getPlayersInGame(players);
 
-    if (getPlayersInGame(players).length === 1) {
+    // 0. Check how many players are in game
+    if (playingPlayers.length === 1) {
+      console.log('[ONLY ONE PLAYER LEFT]:', players);
+      // Update room status
       updatedRoom.stage = Stage.SHOWDOWN;
-      updatedRoom.winner = players[room.currentTurn];
+      updatedRoom.winner = playingPlayers[0];
+      // Update winner status
+      updatedRoom.players = players.map((player) => {
+        if (player.id === playingPlayers[0].id) {
+          return {
+            ...player,
+            chips: player.chips + updatedRoom.pot,
+          };
+        } else {
+          return player;
+        }
+      });
+      setHandWinner(playingPlayers[0]);
 
       await updateRoom(updatedRoom.id, updatedRoom);
       return;
@@ -25,15 +43,23 @@ export const useHand = () => {
 
     // 1. If all players have acted, update the stage
     if (allPlayersActed(players)) {
-      console.log('[ALL PLAYERS HAVE ACTED]');
+      // console.log('[ALL PLAYERS HAVE ACTED]');
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
       updatedRoom.highestBet = 0;
 
-      // 3. Reset all players' current bets
+      // 2. Check if any player is all-in
+      const allInPlayers = players.filter((player) => player.isAllIn);
+      if (allInPlayers.length > 0) {
+        console.log('[ALL-IN PLAYERS]:', allInPlayers);
+        // 2a. Calculate side pots
+        // const sidePots = calculateSidePots(players);
+        // console.log('[SIDE POTS]:', sidePots);
+      }
+
+      // Reset all players' current bets
       updatedRoom.players = players.map((player) => ({
         ...player,
-        currentBet: 0,
         hasActed: false,
       }));
 
@@ -46,6 +72,7 @@ export const useHand = () => {
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
+    // 0. If only one player is not busted, end the game
     if (getBustedPlayers(players).length === players.length - 1) {
       updatedRoom.isStarted = false;
       updatedRoom.isFinished = true;
@@ -64,12 +91,9 @@ export const useHand = () => {
     let nextTurn = players.findIndex((player) => player.isDealer);
     nextTurn = nextTurn < 0 ? 0 : getDealerNextTurn(players);
 
-    // 3a. Keep track of initial turn position
-    updatedRoom.roundStart = nextTurn;
-
     // 4. Reset all players
     players.forEach((player) => {
-      player.currentBet = 0;
+      player.roundBet = 0;
       player.isDealer = player.isSmallBlind = player.isBigBlind = false;
       player.isFolded = false;
       player.isAllIn = false;
@@ -87,10 +111,13 @@ export const useHand = () => {
       players[dealerIndex].isDealer = true;
       players[dealerIndex].isSmallBlind = true;
       players[dealerIndex].chips -= updatedRoom.smallBlind;
-      players[dealerIndex].currentBet = updatedRoom.smallBlind;
+      players[dealerIndex].roundBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
-      players[bigBlindIndex].currentBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].roundBet = updatedRoom.bigBlind;
+
+      // Track initial round start position
+      updatedRoom.roundStart = dealerIndex;
     } else {
       let dealerIndex = nextTurn;
       let smallBlindIndex = (nextTurn + 1) % players.length;
@@ -99,10 +126,13 @@ export const useHand = () => {
       players[dealerIndex].isDealer = true;
       players[smallBlindIndex].isSmallBlind = true;
       players[smallBlindIndex].chips -= updatedRoom.smallBlind;
-      players[smallBlindIndex].currentBet = updatedRoom.smallBlind;
+      players[smallBlindIndex].roundBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
-      players[bigBlindIndex].currentBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].roundBet = updatedRoom.bigBlind;
+
+      // Track initial round start position
+      updatedRoom.roundStart = (nextTurn + 3) % players.length;
     }
 
     // 6. Add blinds to the pot
@@ -120,3 +150,19 @@ export const useHand = () => {
 
   return { updateHand, startHand };
 };
+
+interface SidePot {
+  amount: number;
+}
+
+function calculateSidePots(players: Player[]): SidePot[] {
+  const sidePots: SidePot[] = [];
+  const activePlayers = players.filter(
+    (player) => !player.isAllIn && !player.isBusted && !player.isFolded
+  );
+
+  if (activePlayers.length > 0) {
+  }
+
+  return sidePots;
+}

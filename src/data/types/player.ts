@@ -4,7 +4,7 @@ export interface Player {
   role: Role;
   session: string;
   chips: number;
-  currentBet: number;
+  roundBet: number;
   hasActed: boolean;
   isBusted: boolean;
   isFolded: boolean;

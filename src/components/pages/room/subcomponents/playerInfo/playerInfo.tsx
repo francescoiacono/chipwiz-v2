@@ -22,7 +22,7 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
       setPlayerTurn(isPlayerTurn(player.id, room));
       setIsPlayerHost(player.role === Role.HOST);
     }
-  }, [player.currentBet, player.id, player.role, room]);
+  }, [player.roundBet, player.id, player.role, room]);
 
   return (
     <>
@@ -30,12 +30,12 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
         <div>
           <h2>Player: {player.name}</h2>
           <p>Chips: {player.chips}</p>
-          <p>Current bet: {player.currentBet}</p>
+          <p>Current bet: {player.roundBet}</p>
           <p>
             To call:
             {room.highestBet > player.chips
               ? player.chips
-              : room.highestBet - player.currentBet}
+              : room.highestBet - player.roundBet}
           </p>
           {room.isStarted && (
             <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>

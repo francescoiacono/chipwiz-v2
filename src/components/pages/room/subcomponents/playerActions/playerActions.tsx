@@ -19,8 +19,8 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
   const currentPlayer = players[currentTurn];
 
   const canRaise = currentPlayer.chips > highestBet;
-  const canCall = currentPlayer.currentBet < highestBet;
-  const canCheck = currentPlayer.currentBet >= highestBet || highestBet === 0;
+  const canCall = currentPlayer.roundBet < highestBet;
+  const canCheck = currentPlayer.roundBet >= highestBet || highestBet === 0;
 
   return (
     <section className={styles.actionsWrapper}>
