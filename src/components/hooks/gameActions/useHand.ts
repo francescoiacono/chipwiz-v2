@@ -1,5 +1,10 @@
 import { Room, Stage } from '@/data/types';
-import { allPlayersActed, getDealerNextTurn, updateStage } from '@/utils';
+import {
+  allPlayersActed,
+  getBustedPlayers,
+  getDealerNextTurn,
+  updateStage,
+} from '@/utils';
 import { updateRoom } from '@/services';
 import { useCallback } from 'react';
 import { getPlayersInGame } from '@/utils/getPlayersInGame';
@@ -40,6 +45,14 @@ export const useHand = () => {
   const startHand = useCallback(async (room: Room) => {
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
+
+    if (getBustedPlayers(players).length === players.length - 1) {
+      updatedRoom.isStarted = false;
+      updatedRoom.isFinished = true;
+
+      await updateRoom(updatedRoom.id, updatedRoom);
+      return;
+    }
 
     // 1. Change room status to started
     updatedRoom.isStarted = true;

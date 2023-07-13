@@ -46,6 +46,11 @@ const Room = ({ sessionId }: RoomProps) => {
       {room && player ? (
         <div>
           <RoomInfo />
+          {room.isFinished && (
+            <div>
+              <h1>{`THE WINNER IS ${room.winner}`}</h1>
+            </div>
+          )}
           <PlayerInfo player={player} />
         </div>
       ) : (
