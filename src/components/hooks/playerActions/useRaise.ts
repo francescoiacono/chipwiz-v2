@@ -42,7 +42,7 @@ export const useRaise = () => {
     updatedRoom.pot += raiseAmount;
 
     // 8. Update room highest bet
-    updatedRoom.highestBet = currentPlayer.currentBet;
+    updatedRoom.highestBet += currentPlayer.currentBet;
 
     // 9. Updated player isAllIn
     if (currentPlayer.chips <= 0) {

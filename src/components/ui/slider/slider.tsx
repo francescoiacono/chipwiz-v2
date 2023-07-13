@@ -3,12 +3,14 @@ interface SliderProps {
   min?: number;
   max?: number;
   value?: number;
+  disabled?: boolean;
 }
 
-const Slider = ({ onChange, min, max, value }: SliderProps) => {
+const Slider = ({ onChange, min, max, value, disabled }: SliderProps) => {
   return (
     <div>
       <input
+        disabled={disabled}
         type='range'
         min={min || 1}
         max={max || 100}

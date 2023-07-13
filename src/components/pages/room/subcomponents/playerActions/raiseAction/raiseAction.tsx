@@ -13,7 +13,7 @@ const RaiseAction = ({ disabled }: RaiseActionProps) => {
   const { room } = useRoom();
   const { raise } = useRaise();
 
-  const [raiseAmount, setRaiseAmount] = useState<number>(room?.smallBlind || 1);
+  const [raiseAmount, setRaiseAmount] = useState<number>(room?.highestBet || 1);
   const [showSlider, setShowSlider] = useState<boolean>(false);
 
   const handleRaise = async (amount: number) => {
@@ -29,7 +29,7 @@ const RaiseAction = ({ disabled }: RaiseActionProps) => {
 
   if (!room) return null;
 
-  const { players, currentTurn, smallBlind } = room;
+  const { players, currentTurn } = room;
   const currentPlayer = players[currentTurn];
 
   return (
@@ -47,9 +47,14 @@ const RaiseAction = ({ disabled }: RaiseActionProps) => {
       {showSlider && (
         <>
           <Slider
+            disabled={disabled}
             onChange={handleSliderChange}
             max={currentPlayer.chips}
-            min={smallBlind}
+            min={
+              room.highestBet > currentPlayer.chips
+                ? currentPlayer.chips
+                : room.highestBet
+            }
             value={raiseAmount}
           />
           <p>{raiseAmount}</p>

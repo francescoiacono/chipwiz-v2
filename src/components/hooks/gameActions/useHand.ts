@@ -1,11 +1,12 @@
 import { Room, Stage } from '@/data/types';
-import { getDealerNextTurn, updateStage } from '@/utils';
+import { allPlayersActed, getDealerNextTurn, updateStage } from '@/utils';
 import { updateRoom } from '@/services';
 import { useCallback } from 'react';
 import { getPlayersInGame } from '@/utils/getPlayersInGame';
 
 export const useHand = () => {
-  const checkHandEnd = useCallback(async (room: Room) => {
+  // Function that update game stage
+  const updateHand = useCallback(async (room: Room) => {
     let updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -19,13 +20,8 @@ export const useHand = () => {
       return;
     }
 
-    // 1. Check if all players have acted
-    const allPlayersActed = players.every(
-      (player) => player.hasActed || player.isFolded
-    );
-
-    // 2. If all players have acted, update the stage
-    if (allPlayersActed) {
+    // 1. If all players have acted, update the stage
+    if (allPlayersActed(players)) {
       console.log('ALL PLAYERS ACTED');
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
@@ -115,5 +111,5 @@ export const useHand = () => {
       .catch(() => console.log('Error updating room'));
   }, []);
 
-  return { checkHandEnd, startHand };
+  return { updateHand, startHand };
 };

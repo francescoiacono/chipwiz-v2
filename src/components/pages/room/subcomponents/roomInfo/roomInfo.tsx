@@ -8,7 +8,7 @@ import { useHand } from '@/components/hooks/gameActions';
 
 const RoomInfo = () => {
   const { room } = useRoom();
-  const { startHand, checkHandEnd } = useHand();
+  const { startHand, updateHand } = useHand();
   const [winner, setWinner] = useState<Player | null>(null);
 
   const handleHandReset = useCallback(async () => {
@@ -44,14 +44,14 @@ const RoomInfo = () => {
 
     const handleRoundEndAndSetWinner = async () => {
       if (room.isStarted && room.stage !== Stage.SHOWDOWN) {
-        await checkHandEnd(room);
+        await updateHand(room);
       }
 
       setWinner(room.winner || null);
     };
 
     handleRoundEndAndSetWinner();
-  }, [room, checkHandEnd]);
+  }, [room, updateHand]);
 
   if (!room) return null;
 
