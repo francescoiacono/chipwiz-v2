@@ -36,14 +36,15 @@ export const useRaise = () => {
     currentPlayer.chips -= raiseAmount;
 
     // 6. Update player current bet and set that player has acted
-    currentPlayer.roundBet += raiseAmount;
+    currentPlayer.totalBet += raiseAmount;
+    currentPlayer.stageBet += raiseAmount;
     currentPlayer.hasActed = true;
 
     // 7. Update room pot
     updatedRoom.pots[updatedRoom.currentPot].amount += raiseAmount;
 
     // 8. Update room highest bet
-    updatedRoom.highestBet += currentPlayer.roundBet;
+    updatedRoom.highestBet += currentPlayer.stageBet;
 
     // 9. Updated player isAllIn
     if (currentPlayer.chips <= 0) {

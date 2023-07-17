@@ -91,6 +91,7 @@ export const useHand = () => {
       updatedRoom.players = players.map((player) => ({
         ...player,
         hasActed: false,
+        stageBet: 0,
       }));
 
       // 4. Update room in db
@@ -123,7 +124,8 @@ export const useHand = () => {
 
     // 4. Reset all players
     players.forEach((player) => {
-      player.roundBet = 0;
+      player.totalBet = 0;
+      player.stageBet = 0;
       player.isDealer = player.isSmallBlind = player.isBigBlind = false;
       player.isFolded = false;
       player.isAllIn = false;
@@ -141,10 +143,10 @@ export const useHand = () => {
       players[dealerIndex].isDealer = true;
       players[dealerIndex].isSmallBlind = true;
       players[dealerIndex].chips -= updatedRoom.smallBlind;
-      players[dealerIndex].roundBet = updatedRoom.smallBlind;
+      players[dealerIndex].totalBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
-      players[bigBlindIndex].roundBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].totalBet = updatedRoom.bigBlind;
 
       // Track initial round start position
       updatedRoom.roundStart = dealerIndex;
@@ -156,10 +158,10 @@ export const useHand = () => {
       players[dealerIndex].isDealer = true;
       players[smallBlindIndex].isSmallBlind = true;
       players[smallBlindIndex].chips -= updatedRoom.smallBlind;
-      players[smallBlindIndex].roundBet = updatedRoom.smallBlind;
+      players[smallBlindIndex].totalBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
-      players[bigBlindIndex].roundBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].totalBet = updatedRoom.bigBlind;
 
       // Track initial round start position
       updatedRoom.roundStart = (nextTurn + 3) % players.length;

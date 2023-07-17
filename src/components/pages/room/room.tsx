@@ -20,8 +20,8 @@ const Room = ({ sessionId }: RoomProps) => {
 
   const [player, setPlayer] = useState<Player | undefined>(undefined);
 
+  // Use effect to listen to room changes
   useEffect(() => {
-    // console.log(`[EFFECT Listening to room]`);
     const unsubscribe = listenRoom(slug);
 
     return () => {
@@ -31,8 +31,8 @@ const Room = ({ sessionId }: RoomProps) => {
     };
   }, [listenRoom, slug]);
 
+  // Use effect to set current player info
   useEffect(() => {
-    // console.log(`[EFFECT Setting player]`);
     if (room) {
       const currentPlayer = room.players.find(
         (player) => player.session === sessionId
@@ -42,7 +42,7 @@ const Room = ({ sessionId }: RoomProps) => {
     }
   }, [player, room, sessionId]);
 
-  // Handle round end
+  // Use effect to update hand
   useEffect(() => {
     if (!room) return;
     const handleRoundEnd = async () => {
