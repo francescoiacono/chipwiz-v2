@@ -16,4 +16,5 @@ export interface Room {
   roundStart: number;
   isStarted: boolean;
   isFinished: boolean;
+  allInPlayers: number;
 }

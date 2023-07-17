@@ -6,3 +6,4 @@ export * from './updateStage';
 export * from './allPlayerActed';
 export * from './getBustedPlayers';
 export * from './getAllPlayersIds';
+export * from './canPlayersStilBet';

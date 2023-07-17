@@ -2,17 +2,17 @@ import { Player, Room, Stage } from '@/data/types';
 import { usePot } from '.';
 import {
   allPlayersActed,
+  canPlayersStillBet,
   getBustedPlayers,
   getDealerNextTurn,
   updateStage,
 } from '@/utils';
 import { updateRoom } from '@/services';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { getActivePlayers, getAllInPlayers } from '@/utils/getActivePlayers';
 
 export const useHand = () => {
   const { addPot } = usePot();
-  const [playersAllIn, setPlayersAllIn] = useState<Player[]>([]);
 
   // Function that update game stage
   const updateHand = useCallback(async (room: Room) => {
@@ -51,7 +51,7 @@ export const useHand = () => {
     /////////////////////////////////////////////////////////////////////////////////// If all players have acted, update game stage
     if (allPlayersActed(players)) {
       // HEADS UP
-      if (activePlayers.length <= 2 && allInPlayers.length >= 1) {
+      if (allInPlayers.length === activePlayers.length - 1) {
         // Update room status
         updatedRoom.stage = Stage.SHOWDOWN;
         updatedRoom.isStarted = false;
@@ -63,12 +63,13 @@ export const useHand = () => {
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
       updatedRoom.highestBet = 0;
-      const playersCanStillBet = activePlayers.filter(
-        (player) => player.chips > 0
-      ).length;
 
       // 2. Check if any player is all-in
-      if (allInPlayers.length > 0 && playersCanStillBet > 1) {
+      if (
+        allInPlayers.length > 0 &&
+        allInPlayers.length !== updatedRoom.allInPlayers &&
+        canPlayersStillBet(activePlayers, updatedRoom.highestBet)
+      ) {
         const sidePotPossibleWinners = activePlayers.filter(
           (player) => !player.isAllIn
         );
@@ -76,8 +77,14 @@ export const useHand = () => {
 
         updatedRoom.pots.push(newSidePot);
         updatedRoom.currentPot += 1;
+        updatedRoom.allInPlayers = allInPlayers.length;
+      } else if (allInPlayers.length === activePlayers.length) {
+        updatedRoom.pots[updatedRoom.currentPot].possibleWinners =
+          activePlayers;
 
-        setPlayersAllIn(allInPlayers);
+        // Update room status
+        updatedRoom.stage = Stage.SHOWDOWN;
+        updatedRoom.isStarted = false;
       }
 
       // Reset all players hasActed status

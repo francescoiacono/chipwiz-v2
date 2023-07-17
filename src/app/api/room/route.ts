@@ -42,6 +42,7 @@ export const POST = async (req: Request) => {
     currentTurn: 0,
     stage: Stage.PREFLOP,
     roundStart: 0,
+    allInPlayers: 0,
     isStarted: false,
     isFinished: false,
   };
