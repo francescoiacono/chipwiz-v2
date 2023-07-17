@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { createPlayer, findRoom, updateRoom } from '@/services';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/ui/spinner/spinner';
+import FormInput from '@/components/ui/formInput/formInput';
 
 const JoinRoom = () => {
   const router = useRouter();
@@ -59,15 +60,25 @@ const JoinRoom = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor='roomName'>Room Code</label>
-        <input type='text' name='roomId' onChange={handleChange} />
-      </div>
+      <h2>Join Room</h2>
 
-      <div>
-        <label htmlFor='username'>Username</label>
-        <input type='text' name='username' onChange={handleChange} />
-      </div>
+      <FormInput
+        name='roomId'
+        handleChange={handleChange}
+        value={formData.roomId}
+        placeholder='xxx-xxx'
+      >
+        Room Code:
+      </FormInput>
+
+      <FormInput
+        name='username'
+        placeholder='Choose your username'
+        handleChange={handleChange}
+        value={formData.username}
+      >
+        Username
+      </FormInput>
 
       {error && <div>Error: {error}</div>}
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Spinner from '@/components/ui/spinner/spinner';
 import Button from '@/components/ui/button/button';
+import FormInput from '@/components/ui/formInput/formInput';
 
 const NewRoomForm = () => {
   const router = useRouter();
@@ -68,47 +69,42 @@ const NewRoomForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor='roomName'>Choose a Room Name</label>
-        <input
-          onChange={handleChange}
-          type='text'
-          name='roomName'
-          placeholder='Room Name'
-          value={formData.roomName}
-        />
-      </div>
+      <h1>Create a room</h1>
+      <FormInput
+        handleChange={handleChange}
+        name='roomName'
+        value={formData.roomName}
+        placeholder='My amazing room'
+      >
+        Room Name:
+      </FormInput>
 
-      <div>
-        <label htmlFor='username'>Choose a username</label>
-        <input
-          onChange={handleChange}
-          type='text'
-          name='username'
-          placeholder='Username'
-          value={formData.username}
-        />
-      </div>
+      <FormInput
+        handleChange={handleChange}
+        name='username'
+        value={formData.username}
+        placeholder='Choose your username'
+      >
+        Username:
+      </FormInput>
 
-      <div>
-        <label htmlFor='chips'>Choose a starting chip amount</label>
-        <input
-          onChange={handleChange}
-          type='number'
-          name='chips'
-          value={formData.chips}
-        />
-      </div>
+      <FormInput
+        handleChange={handleChange}
+        name='chips'
+        value={formData.chips}
+        type='number'
+      >
+        Starting chips:
+      </FormInput>
 
-      <div>
-        <label htmlFor='blinds'>Choose the small blind amount</label>
-        <input
-          onChange={handleChange}
-          type='number'
-          name='blinds'
-          value={formData.blinds[0]}
-        />
-      </div>
+      <FormInput
+        handleChange={handleChange}
+        name='blinds'
+        value={formData.blinds[0]}
+        type='number'
+      >
+        Small Blind:
+      </FormInput>
 
       {error && <div>Error: {error}</div>}
 
