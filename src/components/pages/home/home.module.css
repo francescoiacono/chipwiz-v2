@@ -1,0 +1,24 @@
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding-top: 2rem;
+
+  width: 600px;
+  margin: auto;
+}
+
+.wrapper > form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+    padding: 0 1rem;
+  }
+}

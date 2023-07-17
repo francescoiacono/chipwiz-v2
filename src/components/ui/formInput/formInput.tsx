@@ -1,3 +1,5 @@
+import Input from '../input/input';
+
 interface FormInputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
@@ -17,8 +19,8 @@ const FormInput = ({
 }: FormInputProps) => {
   return (
     <div>
-      <label htmlFor='username'>{children}</label>
-      <input
+      <label>{children}</label>
+      <Input
         onChange={handleChange}
         type={type || 'text'}
         name={name}
