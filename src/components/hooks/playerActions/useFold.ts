@@ -20,6 +20,13 @@ export const useFold = () => {
       updatedRoom.currentTurn
     );
 
+    updatedRoom.pots = updatedRoom.pots.map((pot) => {
+      pot.possibleWinners = pot.possibleWinners.filter(
+        (player) => player.id !== currentPlayer.id
+      );
+      return pot;
+    });
+
     // 4. Update room
     await updateRoom(updatedRoom.id, updatedRoom);
   };

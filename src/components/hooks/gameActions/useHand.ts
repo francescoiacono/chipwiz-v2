@@ -1,4 +1,5 @@
 import { Player, Room, Stage } from '@/data/types';
+import { usePot } from '.';
 import {
   allPlayersActed,
   getBustedPlayers,
@@ -7,57 +8,79 @@ import {
 } from '@/utils';
 import { updateRoom } from '@/services';
 import { useCallback, useState } from 'react';
-import { getPlayersInGame } from '@/utils/getPlayersInGame';
+import { getActivePlayers, getAllInPlayers } from '@/utils/getActivePlayers';
 
 export const useHand = () => {
-  const [handWinner, setHandWinner] = useState<Player | null>(null);
+  const { addPot } = usePot();
+  const [playersAllIn, setPlayersAllIn] = useState<Player[]>([]);
 
   // Function that update game stage
   const updateHand = useCallback(async (room: Room) => {
     let updatedRoom = { ...room };
     const { players } = updatedRoom;
-    const playingPlayers = getPlayersInGame(players);
+    const activePlayers = getActivePlayers(players);
+    const allInPlayers = getAllInPlayers(activePlayers);
 
-    // 0. Check how many players are in game
-    if (playingPlayers.length === 1) {
-      console.log('[ONLY ONE PLAYER LEFT]:', players);
+    /////////////////////////////////////////////////////////////////////////////////// If activePlayers is 1, end the game
+    if (activePlayers.length === 1) {
       // Update room status
       updatedRoom.stage = Stage.SHOWDOWN;
-      updatedRoom.winner = playingPlayers[0];
+      updatedRoom.winner = activePlayers[0];
+      updatedRoom.isStarted = false;
+
       // Update winner status
       updatedRoom.players = players.map((player) => {
-        if (player.id === playingPlayers[0].id) {
+        const totalPot = updatedRoom.pots.reduce((acc, pot) => {
+          return acc + pot.amount;
+        }, 0);
+
+        if (player.id === activePlayers[0].id) {
           return {
             ...player,
-            chips: player.chips + updatedRoom.pot,
+            chips: totalPot + player.chips,
           };
         } else {
           return player;
         }
       });
-      setHandWinner(playingPlayers[0]);
 
       await updateRoom(updatedRoom.id, updatedRoom);
       return;
     }
 
-    // 1. If all players have acted, update the stage
+    /////////////////////////////////////////////////////////////////////////////////// If all players have acted, update game stage
     if (allPlayersActed(players)) {
-      // console.log('[ALL PLAYERS HAVE ACTED]');
+      // HEADS UP
+      if (activePlayers.length <= 2 && allInPlayers.length >= 1) {
+        // Update room status
+        updatedRoom.stage = Stage.SHOWDOWN;
+        updatedRoom.isStarted = false;
+
+        await updateRoom(updatedRoom.id, updatedRoom);
+        return;
+      }
+
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
       updatedRoom.highestBet = 0;
+      const playersCanStillBet = activePlayers.filter(
+        (player) => player.chips > 0
+      ).length;
 
       // 2. Check if any player is all-in
-      const allInPlayers = players.filter((player) => player.isAllIn);
-      if (allInPlayers.length > 0) {
-        console.log('[ALL-IN PLAYERS]:', allInPlayers);
-        // 2a. Calculate side pots
-        // const sidePots = calculateSidePots(players);
-        // console.log('[SIDE POTS]:', sidePots);
+      if (allInPlayers.length > 0 && playersCanStillBet > 1) {
+        const sidePotPossibleWinners = activePlayers.filter(
+          (player) => !player.isAllIn
+        );
+        const newSidePot = addPot(sidePotPossibleWinners);
+
+        updatedRoom.pots.push(newSidePot);
+        updatedRoom.currentPot += 1;
+
+        setPlayersAllIn(allInPlayers);
       }
 
-      // Reset all players' current bets
+      // Reset all players hasActed status
       updatedRoom.players = players.map((player) => ({
         ...player,
         hasActed: false,
@@ -65,6 +88,7 @@ export const useHand = () => {
 
       // 4. Update room in db
       await updateRoom(updatedRoom.id, updatedRoom);
+      return;
     }
   }, []);
 
@@ -75,7 +99,6 @@ export const useHand = () => {
     // 0. If only one player is not busted, end the game
     if (getBustedPlayers(players).length === players.length - 1) {
       updatedRoom.isStarted = false;
-      updatedRoom.isFinished = true;
 
       await updateRoom(updatedRoom.id, updatedRoom);
       return;
@@ -136,7 +159,14 @@ export const useHand = () => {
     }
 
     // 6. Add blinds to the pot
-    updatedRoom.pot = updatedRoom.smallBlind + updatedRoom.bigBlind;
+    updatedRoom.pots = [
+      {
+        amount: updatedRoom.smallBlind + updatedRoom.bigBlind,
+        possibleWinners: players,
+      },
+    ];
+
+    updatedRoom.currentPot = 0;
 
     // 7. Update room highest bet
     updatedRoom.highestBet = updatedRoom.bigBlind;
@@ -148,21 +178,32 @@ export const useHand = () => {
     await updateRoom(updatedRoom.id, updatedRoom);
   }, []);
 
-  return { updateHand, startHand };
+  const setHandWinner = useCallback(async (room: Room, winner: Player) => {
+    const updatedRoom = { ...room };
+    const { players, pots, currentPot } = updatedRoom;
+
+    const updatedPlayers = players.map((p) => {
+      if (p.id === winner.id) {
+        return {
+          ...p,
+          chips: p.chips + pots[currentPot].amount,
+        };
+      }
+      return p;
+    });
+
+    updatedRoom.players = updatedPlayers;
+
+    if (pots.length > 1) {
+      updatedRoom.pots.pop();
+      updatedRoom.currentPot -= 1;
+    } else {
+      updatedRoom.winner = winner;
+    }
+
+    await updateRoom(updatedRoom.id, updatedRoom);
+    return;
+  }, []);
+
+  return { updateHand, startHand, setHandWinner };
 };
-
-interface SidePot {
-  amount: number;
-}
-
-function calculateSidePots(players: Player[]): SidePot[] {
-  const sidePots: SidePot[] = [];
-  const activePlayers = players.filter(
-    (player) => !player.isAllIn && !player.isBusted && !player.isFolded
-  );
-
-  if (activePlayers.length > 0) {
-  }
-
-  return sidePots;
-}

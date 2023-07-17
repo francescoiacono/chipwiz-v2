@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { Player } from '@/data/types';
 import RoomInfo from './subcomponents/roomInfo/roomInfo';
 import PlayerInfo from './subcomponents/playerInfo/playerInfo';
+import { useHand } from '@/components/hooks/gameActions';
 
 interface RoomProps {
   sessionId?: string;
@@ -15,6 +16,7 @@ interface RoomProps {
 const Room = ({ sessionId }: RoomProps) => {
   const { slug } = useParams();
   const { room, listenRoom } = useRoom();
+  const { updateHand } = useHand();
 
   const [player, setPlayer] = useState<Player | undefined>(undefined);
 
@@ -37,22 +39,27 @@ const Room = ({ sessionId }: RoomProps) => {
       );
 
       setPlayer(currentPlayer);
-      // console.log(player);
     }
   }, [player, room, sessionId]);
+
+  // Handle round end
+  useEffect(() => {
+    if (!room) return;
+    const handleRoundEnd = async () => {
+      if (room.isStarted) {
+        await updateHand(room);
+      }
+    };
+    handleRoundEnd();
+  }, [room, updateHand]);
 
   return (
     <main>
       {room && player ? (
-        <div>
+        <>
           <RoomInfo />
-          {room.isFinished && (
-            <div>
-              <h1>{`THE WINNER IS ${room.winner}`}</h1>
-            </div>
-          )}
           <PlayerInfo player={player} />
-        </div>
+        </>
       ) : (
         <Spinner />
       )}

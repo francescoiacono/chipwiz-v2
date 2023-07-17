@@ -60,7 +60,7 @@ const JoinRoom = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor='roomName'>Room Id</label>
+        <label htmlFor='roomName'>Room Code</label>
         <input type='text' name='roomId' onChange={handleChange} />
       </div>
 

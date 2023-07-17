@@ -4,6 +4,15 @@ export const getNextPlayerTurn = (players: Player[], currentTurn: number) => {
   const playersCount = players.length;
   let nextTurn = (currentTurn + 1) % playersCount;
 
+  // Check if all players are all-in, folded, or busted
+  if (
+    players.every(
+      (player) => player.isFolded || player.isAllIn || player.isBusted
+    )
+  ) {
+    return 0;
+  }
+
   // Iterate until finding a player who is still in game
   while (
     players[nextTurn].isFolded ||

@@ -4,7 +4,6 @@ import { getNextPlayerTurn } from '@/utils';
 
 export const useCall = () => {
   const call = async (room: Room) => {
-    // console.log('[CALLING]');
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -22,15 +21,22 @@ export const useCall = () => {
         currentPlayer.chips = 0;
         currentPlayer.isAllIn = true;
         currentPlayer.hasActed = true;
-        updatedRoom.pot += currentPlayer.roundBet;
+
+        updatedRoom.pots[updatedRoom.currentPot].amount +=
+          currentPlayer.roundBet;
       }
       // 3b. Else, call the amount
       else {
         currentPlayer.hasActed = true;
         currentPlayer.roundBet += amountToCall;
         currentPlayer.chips -= amountToCall;
-        updatedRoom.pot += amountToCall;
+        updatedRoom.pots[updatedRoom.currentPot].amount += amountToCall;
       }
+
+      console.log(
+        'Next player turn: ',
+        getNextPlayerTurn(players, updatedRoom.currentTurn)
+      );
 
       // 3c. Update room turn
       updatedRoom.currentTurn = getNextPlayerTurn(

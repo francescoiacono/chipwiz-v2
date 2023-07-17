@@ -1,6 +1,7 @@
 import { Room } from '@/data/types';
 import { updateRoom } from '@/services';
 import { getNextPlayerTurn } from '@/utils';
+import { getAllInPlayers } from '@/utils/getActivePlayers';
 
 export const useRaise = () => {
   const raise = async (raiseAmount: number, room: Room) => {
@@ -39,7 +40,7 @@ export const useRaise = () => {
     currentPlayer.hasActed = true;
 
     // 7. Update room pot
-    updatedRoom.pot += raiseAmount;
+    updatedRoom.pots[updatedRoom.currentPot].amount += raiseAmount;
 
     // 8. Update room highest bet
     updatedRoom.highestBet += currentPlayer.roundBet;

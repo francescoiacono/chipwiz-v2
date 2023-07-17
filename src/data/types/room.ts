@@ -1,4 +1,4 @@
-import { Player, Stage } from '.';
+import { Player, Pot, Stage } from '.';
 
 export interface Room {
   id: string;
@@ -8,7 +8,8 @@ export interface Room {
   initialChips: number;
   smallBlind: number;
   bigBlind: number;
-  pot: number;
+  pots: Pot[];
+  currentPot: number;
   highestBet: number;
   stage: Stage;
   currentTurn: number;
