@@ -1,9 +1,10 @@
+import PlayerActions from '../playerActions/playerActions';
+import Button from '@/components/ui/button/button';
+import styles from './playerInfo.module.css';
 import { Player, Role } from '@/data/types';
 import { isPlayerTurn } from '@/utils';
 import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
-import PlayerActions from '../playerActions/playerActions';
-import Button from '@/components/ui/button/button';
 import { useHand } from '@/components/hooks/gameActions';
 
 interface PlayerInfoProps {
@@ -26,24 +27,29 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
 
   return (
     <>
+      <h2>{player.name}</h2>
       {room && (
-        <div>
-          <h2>Player: {player.name}</h2>
-          <p>Chips: {player.chips}</p>
-          <p>Current bet: {player.totalBet}</p>
-          <p>
-            To call:
-            {room.highestBet > player.chips
-              ? player.chips
-              : room.highestBet - player.stageBet}
-          </p>
-          {room.isStarted && (
-            <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>
-          )}
-          {isPlayerHost && !room.isStarted && (
-            <Button onClick={() => startHand(room)}>Start Game</Button>
-          )}
-        </div>
+        <section className={styles.wrapper}>
+          <div className={styles.playerInfo}>
+            <p>Chips: {player.chips}</p>
+            <p>Current bet: {player.totalBet}</p>
+            <p>
+              To call:
+              {room.highestBet > player.chips
+                ? player.chips
+                : room.highestBet - player.stageBet}
+            </p>
+          </div>
+
+          <div>
+            {room.isStarted && (
+              <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>
+            )}
+            {isPlayerHost && !room.isStarted && (
+              <Button onClick={() => startHand(room)}>Start Game</Button>
+            )}
+          </div>
+        </section>
       )}
     </>
   );

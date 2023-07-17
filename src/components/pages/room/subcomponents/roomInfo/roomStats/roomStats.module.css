@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  padding: 1rem 0;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}

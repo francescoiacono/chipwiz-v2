@@ -1,12 +1,13 @@
 'use client';
 
+import RoomInfo from './subcomponents/roomInfo/roomInfo';
+import PlayerInfo from './subcomponents/playerInfo/playerInfo';
 import Spinner from '@/components/ui/spinner/spinner';
+import styles from './room.module.css';
+import { Player } from '@/data/types';
 import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Player } from '@/data/types';
-import RoomInfo from './subcomponents/roomInfo/roomInfo';
-import PlayerInfo from './subcomponents/playerInfo/playerInfo';
 import { useHand } from '@/components/hooks/gameActions';
 
 interface RoomProps {
@@ -54,7 +55,7 @@ const Room = ({ sessionId }: RoomProps) => {
   }, [room, updateHand]);
 
   return (
-    <main>
+    <main className={styles.wrapper}>
       {room && player ? (
         <>
           <RoomInfo />

@@ -1,3 +1,4 @@
+import styles from './roomStats.module.css';
 import { useRoom } from '@/components/providers';
 import { Pot } from '@/data/types';
 
@@ -9,7 +10,7 @@ const RoomStats = () => {
   const { pots, smallBlind, bigBlind, stage, players, currentTurn } = room;
 
   return (
-    <>
+    <section className={styles.wrapper}>
       {pots.length <= 1 ? (
         <p>Pot 1: {pots[0].amount}</p>
       ) : (
@@ -26,7 +27,7 @@ const RoomStats = () => {
       <p>
         Player{`'`}s Turn: {players[currentTurn].name}
       </p>
-    </>
+    </section>
   );
 };
 

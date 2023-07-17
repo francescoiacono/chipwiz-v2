@@ -62,8 +62,6 @@ const NewRoomForm = () => {
       }
     } catch (e) {
       setError(e as string);
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -1,6 +1,7 @@
 import Button from '@/components/ui/button/button';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import styles from './roomCode.module.css';
 
 const RoomCode = () => {
   const { slug } = useParams();
@@ -19,8 +20,10 @@ const RoomCode = () => {
   };
 
   return (
-    <div>
-      <h1>Room Code: {slug}</h1>
+    <div className={styles.wrapper}>
+      <h3>
+        <span>Room Code: {slug}</span>
+      </h3>
       <Button onClick={handleCopyClick}>{buttonText}</Button>
     </div>
   );

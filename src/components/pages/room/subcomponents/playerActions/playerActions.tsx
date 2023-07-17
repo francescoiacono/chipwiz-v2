@@ -23,7 +23,7 @@ const PlayerActions = ({ disabled }: PlayerActionsProps) => {
   const canCheck = currentPlayer.stageBet >= highestBet || highestBet === 0;
 
   return (
-    <section className={styles.actionsWrapper}>
+    <section className={styles.wrapper}>
       {!winner && (
         <>
           {canCall && <CallAction disabled={disabled} />}

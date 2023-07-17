@@ -1,5 +1,6 @@
-import { useRoom } from '@/components/providers';
 import RoomCode from './roomCode/roomCode';
+import styles from './roomHeader.module.css';
+import { useRoom } from '@/components/providers';
 
 const RoomHeader = () => {
   const { room } = useRoom();
@@ -8,11 +9,11 @@ const RoomHeader = () => {
   const { name, isStarted } = room;
 
   return (
-    <header>
+    <header className={styles.header}>
       <h1>{name}</h1>
       <RoomCode />
       <p>
-        Game Status: {isStarted && <span>(Game Started)</span>}{' '}
+        {isStarted && <span>(Game Started)</span>}{' '}
         {!isStarted && <span>(Waiting for host...)</span>}
       </p>
     </header>

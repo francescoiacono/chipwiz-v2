@@ -11,7 +11,7 @@ const PlayerList = () => {
 
   return (
     <section className={styles.listWrapper}>
-      <p className={styles.listDescription}>Players in the room:</p>
+      <h2 className={styles.listDescription}>Players in the room:</h2>
       <ul className={styles.list}>
         {room.players.map((player) => {
           if (player.id === players[currentTurn].id) {

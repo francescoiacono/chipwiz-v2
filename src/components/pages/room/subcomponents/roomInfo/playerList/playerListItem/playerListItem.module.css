@@ -1,8 +1,8 @@
 .listItem {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   padding: 0.5rem;
+  display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .buttons {
