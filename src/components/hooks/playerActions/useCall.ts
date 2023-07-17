@@ -23,6 +23,8 @@ export const useCall = () => {
         currentPlayer.isAllIn = true;
         currentPlayer.hasActed = true;
 
+        console.log("I'm all in");
+
         updatedRoom.pots[updatedRoom.currentPot].amount +=
           currentPlayer.stageBet;
       }

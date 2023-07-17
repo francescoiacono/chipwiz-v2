@@ -49,6 +49,8 @@ export const useRaise = () => {
     // 9. Updated player isAllIn
     if (currentPlayer.chips <= 0) {
       currentPlayer.isAllIn = true;
+      currentPlayer.hasActed = true;
+      console.log("I'm all in (raise)");
     }
 
     // 10. Update room current turn

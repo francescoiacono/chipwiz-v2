@@ -11,9 +11,13 @@ const RoomStats = () => {
   return (
     <>
       {pots.length <= 1 ? (
-        <p>Pot: {pots[0].amount}</p>
+        <p>Pot 1: {pots[0].amount}</p>
       ) : (
-        pots.map((p: Pot, i: number) => <p key={i}>Pot: {p.amount}</p>)
+        pots.map((p: Pot, i: number) => (
+          <p key={i}>
+            Pot {i + 1}: {p.amount}
+          </p>
+        ))
       )}
       <p>
         Blinds: {smallBlind} / {bigBlind}

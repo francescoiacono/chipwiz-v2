@@ -21,7 +21,7 @@ export const useHand = () => {
     const activePlayers = getActivePlayers(players);
     const allInPlayers = getAllInPlayers(activePlayers);
 
-    /////////////////////////////////////////////////////////////////////////////////// If activePlayers is 1, end the game
+    // If activePlayers is 1, end the game
     if (activePlayers.length === 1) {
       // Update room status
       updatedRoom.stage = Stage.SHOWDOWN;
@@ -48,7 +48,7 @@ export const useHand = () => {
       return;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////// If all players have acted, update game stage
+    // If all players have acted, update game stage
     if (allPlayersActed(players)) {
       // HEADS UP
       if (allInPlayers.length === activePlayers.length - 1) {
@@ -68,11 +68,12 @@ export const useHand = () => {
       if (
         allInPlayers.length > 0 &&
         allInPlayers.length !== updatedRoom.allInPlayers &&
-        canPlayersStillBet(activePlayers, updatedRoom.highestBet)
+        canPlayersStillBet(players, updatedRoom.highestBet)
       ) {
         const sidePotPossibleWinners = activePlayers.filter(
           (player) => !player.isAllIn
         );
+
         const newSidePot = addPot(sidePotPossibleWinners);
 
         updatedRoom.pots.push(newSidePot);
@@ -176,6 +177,7 @@ export const useHand = () => {
     ];
 
     updatedRoom.currentPot = 0;
+    updatedRoom.allInPlayers = 0;
 
     // 7. Update room highest bet
     updatedRoom.highestBet = updatedRoom.bigBlind;
