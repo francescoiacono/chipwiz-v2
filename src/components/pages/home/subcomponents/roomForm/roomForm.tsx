@@ -1,11 +1,11 @@
 'use client';
 
-import { createPlayer, createRoom, updateRoom } from '@/services';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import Spinner from '@/components/ui/spinner/spinner';
 import Button from '@/components/ui/button/button';
 import FormInput from '@/components/ui/formInput/formInput';
+import { createPlayer, createRoom, updateRoom } from '@/services';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const NewRoomForm = () => {
   const router = useRouter();
@@ -103,10 +103,15 @@ const NewRoomForm = () => {
       >
         Small Blind:
       </FormInput>
-
       {error && <div>Error: {error}</div>}
 
-      {loading ? <Spinner /> : <Button type='submit'>Create Room</Button>}
+      {loading ? (
+        <Button type='submit'>
+          Create Room <Spinner small />
+        </Button>
+      ) : (
+        <Button type='submit'>Create Room</Button>
+      )}
     </form>
   );
 };

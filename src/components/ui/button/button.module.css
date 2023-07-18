@@ -7,6 +7,9 @@
   font-size: 1rem;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease-out, border-color 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button:disabled {

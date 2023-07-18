@@ -82,7 +82,13 @@ const JoinRoom = () => {
 
       {error && <div>Error: {error}</div>}
 
-      {loading ? <Spinner /> : <Button type='submit'>Join Room</Button>}
+      {loading ? (
+        <Button type='submit'>
+          Join Room <Spinner small />{' '}
+        </Button>
+      ) : (
+        <Button type='submit'>Join Room</Button>
+      )}
     </form>
   );
 };
