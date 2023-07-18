@@ -1,16 +1,18 @@
-import { Player, Room, Stage } from '@/data/types';
+import { useCallback } from 'react';
 import { usePot } from '.';
+import { Player, Room, Stage } from '@/data/types';
+import { updateRoom } from '@/services';
 import {
   allPlayersActed,
   canPlayersStillBet,
   getBustedPlayers,
   getDealerNextTurn,
   updateStage,
+  getActivePlayers,
+  getAllInPlayers,
+  calculatePotentialWins,
+  endHandWithWinner,
 } from '@/utils';
-import { updateRoom } from '@/services';
-import { useCallback } from 'react';
-import { getActivePlayers, getAllInPlayers } from '@/utils/getActivePlayers';
-import { calculatePotentialWins } from '@/utils/calculatePotentialWins';
 
 export const useHand = () => {
   const { addPot, distributePot } = usePot();
@@ -30,38 +32,17 @@ export const useHand = () => {
       }
     });
 
-    // If activePlayers is 1, end the game
+    // If activePlayers is 1, end the game with the winner
     if (activePlayers.length === 1) {
-      // Update room status
-      updatedRoom.stage = Stage.SHOWDOWN;
-      updatedRoom.winner = activePlayers[0];
-      updatedRoom.isStarted = false;
-
-      // Update winner status
-      updatedRoom.players = players.map((player) => {
-        const totalPot = updatedRoom.pots.reduce((acc, pot) => {
-          return acc + pot.amount;
-        }, 0);
-
-        if (player.id === activePlayers[0].id) {
-          return {
-            ...player,
-            chips: totalPot + player.chips,
-          };
-        } else {
-          return player;
-        }
-      });
-
+      updatedRoom = endHandWithWinner(updatedRoom, activePlayers);
       await updateRoom(updatedRoom.id, updatedRoom);
       return;
     }
 
     // If all players have acted, update game stage
     if (allPlayersActed(players)) {
-      // HEADS UP
+      // If all players are all-in, end the game
       if (allInPlayers.length === activePlayers.length - 1) {
-        // Update room status
         updatedRoom.stage = Stage.SHOWDOWN;
         updatedRoom.isStarted = false;
 
@@ -69,11 +50,12 @@ export const useHand = () => {
         return;
       }
 
+      // If not update room status
       updatedRoom.stage = updateStage(updatedRoom.stage);
       updatedRoom.roundStart = updatedRoom.currentTurn;
       updatedRoom.highestBet = 0;
 
-      // 2. Check if any player is all-in
+      // When a player goes all-in, a side pot is created
       if (
         allInPlayers.length > 0 &&
         allInPlayers.length !== updatedRoom.allInPlayers &&
@@ -88,7 +70,10 @@ export const useHand = () => {
         updatedRoom.pots.push(newSidePot);
         updatedRoom.currentPot += 1;
         updatedRoom.allInPlayers = allInPlayers.length;
-      } else if (allInPlayers.length === activePlayers.length) {
+      }
+
+      // If all players are all-in, end the game
+      else if (allInPlayers.length === activePlayers.length) {
         updatedRoom.pots[updatedRoom.currentPot].possibleWinners =
           activePlayers;
 

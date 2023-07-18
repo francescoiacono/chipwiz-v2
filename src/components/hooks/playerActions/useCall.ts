@@ -17,7 +17,6 @@ export const useCall = () => {
     if (amountToCall > 0) {
       // 3a. But the player has less chips than the amount to call, then go all in
       if (currentPlayer.chips < amountToCall) {
-        console.log('Changing Total Bet to', currentPlayer.chips);
         currentPlayer.totalBet += currentPlayer.chips;
         currentPlayer.stageBet += currentPlayer.chips;
         currentPlayer.chips = 0;

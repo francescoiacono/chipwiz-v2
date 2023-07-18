@@ -9,7 +9,7 @@ import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useHand } from '@/components/hooks/gameActions';
-import { calculatePotentialWins } from '@/utils/calculatePotentialWins';
+import { calculatePotentialWins } from '@/utils/hand/calculatePotentialWins';
 
 interface RoomProps {
   sessionId?: string;

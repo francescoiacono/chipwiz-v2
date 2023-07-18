@@ -63,21 +63,21 @@ const JoinRoom = () => {
       <h2>Join Room</h2>
 
       <FormInput
-        name='roomId'
-        handleChange={handleChange}
-        value={formData.roomId}
-        placeholder='xxx-xxx'
-      >
-        Room Code:
-      </FormInput>
-
-      <FormInput
         name='username'
         placeholder='Choose your username'
         handleChange={handleChange}
         value={formData.username}
       >
         Username
+      </FormInput>
+
+      <FormInput
+        name='roomId'
+        handleChange={handleChange}
+        value={formData.roomId}
+        placeholder='xxx-xxx'
+      >
+        Room Code:
       </FormInput>
 
       {error && <div>Error: {error}</div>}
