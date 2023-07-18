@@ -1,6 +1,6 @@
 import { Room } from '@/data/types';
 import { updateRoom } from '@/services';
-import { getNextPlayerTurn } from '@/utils';
+import { getNextPlayerTurnInGame } from '@/utils';
 
 export const useRaise = () => {
   const raise = async (raiseAmount: number, room: Room) => {
@@ -52,7 +52,7 @@ export const useRaise = () => {
     }
 
     // 10. Update room current turn
-    updatedRoom.currentTurn = getNextPlayerTurn(
+    updatedRoom.currentTurn = getNextPlayerTurnInGame(
       players,
       updatedRoom.currentTurn
     );

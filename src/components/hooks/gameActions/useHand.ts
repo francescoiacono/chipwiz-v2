@@ -129,8 +129,7 @@ export const useHand = () => {
     updatedRoom.stage = Stage.PREFLOP;
 
     // 3. Find next player index that will have to act
-    let nextTurn = players.findIndex((player) => player.isDealer);
-    nextTurn = nextTurn < 0 ? 0 : getDealerNextTurn(players);
+    let nextTurn = getDealerNextTurn(players);
 
     // 4. Reset all players
     players.forEach((player) => {

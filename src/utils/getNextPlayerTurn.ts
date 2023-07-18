@@ -1,35 +1,48 @@
 import { Player } from '@/data/types';
 
-export const getNextPlayerTurn = (players: Player[], currentTurn: number) => {
+const getNextTurn = (
+  players: Player[],
+  currentTurn: number,
+  checkFn: (player: Player) => boolean
+): number => {
   const playersCount = players.length;
   let nextTurn = (currentTurn + 1) % playersCount;
 
-  // Check if all players are all-in, folded, or busted
-  if (
-    players.every(
-      (player) => player.isFolded || player.isAllIn || player.isBusted
-    )
-  ) {
+  // Check if all players satisfy the provided check function
+  if (players.every(checkFn)) {
     return 0;
   }
 
-  // Iterate until finding a player who is still in game
-  while (
-    players[nextTurn].isFolded ||
-    players[nextTurn].isAllIn ||
-    players[nextTurn].isBusted
-  ) {
+  // Iterate until finding a player who does not satisfy the check function
+  while (checkFn(players[nextTurn])) {
     nextTurn = (nextTurn + 1) % playersCount;
   }
 
   return nextTurn;
 };
 
+export const getNextPlayerTurnInGame = (
+  players: Player[],
+  currentTurn: number
+) => {
+  const checkFn = (player: Player) =>
+    player.isFolded || player.isAllIn || player.isBusted;
+  return getNextTurn(players, currentTurn, checkFn);
+};
+
+export const getNextPlayerTurnStart = (
+  players: Player[],
+  currentTurn: number
+) => {
+  const checkFn = (player: Player) => player.isBusted;
+  return getNextTurn(players, currentTurn, checkFn);
+};
+
 export const getDealerNextTurn = (players: Player[]): number => {
   const dealer = players.find((player) => player.isDealer);
   if (dealer) {
     const dealerIndex = players.indexOf(dealer);
-    return getNextPlayerTurn(players, dealerIndex);
+    return getNextPlayerTurnStart(players, dealerIndex);
   }
 
   return 0;

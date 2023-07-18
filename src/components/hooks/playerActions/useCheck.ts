@@ -1,6 +1,6 @@
 import { Room } from '@/data/types';
 import { updateRoom } from '@/services';
-import { getNextPlayerTurn } from '@/utils';
+import { getNextPlayerTurnInGame } from '@/utils';
 
 export const useCheck = () => {
   const check = async (room: Room) => {
@@ -15,7 +15,7 @@ export const useCheck = () => {
     currentPlayer.hasActed = true;
 
     // 3. Update room turn
-    updatedRoom.currentTurn = getNextPlayerTurn(
+    updatedRoom.currentTurn = getNextPlayerTurnInGame(
       players,
       updatedRoom.currentTurn
     );
