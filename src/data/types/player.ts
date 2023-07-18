@@ -4,6 +4,8 @@ export interface Player {
   role: Role;
   session: string;
   chips: number;
+  potentialWin: number;
+  initialRoundChips: number;
   totalBet: number;
   stageBet: number;
   hasActed: boolean;

@@ -1,11 +1,9 @@
 import { Room } from '@/data/types';
 import { updateRoom } from '@/services';
 import { getNextPlayerTurn } from '@/utils';
-import { getAllInPlayers } from '@/utils/getActivePlayers';
 
 export const useRaise = () => {
   const raise = async (raiseAmount: number, room: Room) => {
-    // console.log(`[RAISING ${raiseAmount}]`);
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 
@@ -36,6 +34,7 @@ export const useRaise = () => {
     currentPlayer.chips -= raiseAmount;
 
     // 6. Update player current bet and set that player has acted
+    console.log('Changing Total Bet to', currentPlayer.totalBet + raiseAmount);
     currentPlayer.totalBet += raiseAmount;
     currentPlayer.stageBet += raiseAmount;
     currentPlayer.hasActed = true;
@@ -44,13 +43,12 @@ export const useRaise = () => {
     updatedRoom.pots[updatedRoom.currentPot].amount += raiseAmount;
 
     // 8. Update room highest bet
-    updatedRoom.highestBet += currentPlayer.stageBet;
+    updatedRoom.highestBet = currentPlayer.stageBet;
 
     // 9. Updated player isAllIn
     if (currentPlayer.chips <= 0) {
       currentPlayer.isAllIn = true;
       currentPlayer.hasActed = true;
-      console.log("I'm all in (raise)");
     }
 
     // 10. Update room current turn

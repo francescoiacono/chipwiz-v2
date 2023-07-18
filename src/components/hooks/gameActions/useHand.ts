@@ -10,9 +10,10 @@ import {
 import { updateRoom } from '@/services';
 import { useCallback } from 'react';
 import { getActivePlayers, getAllInPlayers } from '@/utils/getActivePlayers';
+import { calculatePotentialWins } from '@/utils/calculatePotentialWins';
 
 export const useHand = () => {
-  const { addPot } = usePot();
+  const { addPot, distributePot } = usePot();
 
   // Function that update game stage
   const updateHand = useCallback(async (room: Room) => {
@@ -20,6 +21,14 @@ export const useHand = () => {
     const { players } = updatedRoom;
     const activePlayers = getActivePlayers(players);
     const allInPlayers = getAllInPlayers(activePlayers);
+
+    // Set potential wins
+    const potentialWins = calculatePotentialWins(activePlayers);
+    players.forEach((p) => {
+      if (potentialWins[p.id]) {
+        p.potentialWin = potentialWins[p.id];
+      }
+    });
 
     // If activePlayers is 1, end the game
     if (activePlayers.length === 1) {
@@ -131,6 +140,7 @@ export const useHand = () => {
       player.isFolded = false;
       player.isAllIn = false;
       player.hasActed = false;
+      player.initialRoundChips = player.chips;
     });
 
     // 5. Update players
@@ -145,9 +155,11 @@ export const useHand = () => {
       players[dealerIndex].isSmallBlind = true;
       players[dealerIndex].chips -= updatedRoom.smallBlind;
       players[dealerIndex].totalBet = updatedRoom.smallBlind;
+      players[dealerIndex].stageBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
       players[bigBlindIndex].totalBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].stageBet = updatedRoom.bigBlind;
 
       // Track initial round start position
       updatedRoom.roundStart = dealerIndex;
@@ -160,9 +172,11 @@ export const useHand = () => {
       players[smallBlindIndex].isSmallBlind = true;
       players[smallBlindIndex].chips -= updatedRoom.smallBlind;
       players[smallBlindIndex].totalBet = updatedRoom.smallBlind;
+      players[smallBlindIndex].stageBet = updatedRoom.smallBlind;
       players[bigBlindIndex].isBigBlind = true;
       players[bigBlindIndex].chips -= updatedRoom.bigBlind;
       players[bigBlindIndex].totalBet = updatedRoom.bigBlind;
+      players[bigBlindIndex].stageBet = updatedRoom.bigBlind;
 
       // Track initial round start position
       updatedRoom.roundStart = (nextTurn + 3) % players.length;
@@ -189,22 +203,32 @@ export const useHand = () => {
     await updateRoom(updatedRoom.id, updatedRoom);
   }, []);
 
+  // Function that set winner
   const setHandWinner = useCallback(async (room: Room, winner: Player) => {
     const updatedRoom = { ...room };
-    const { players, pots, currentPot } = updatedRoom;
+    const { pots, currentPot, players } = updatedRoom;
 
-    const updatedPlayers = players.map((p) => {
-      if (p.id === winner.id) {
-        return {
-          ...p,
-          chips: p.chips + pots[currentPot].amount,
-        };
-      }
-      return p;
-    });
+    const potentialWinners = players.filter((player) =>
+      pots[currentPot].possibleWinners.some(
+        (potPlayer) => potPlayer.id === player.id
+      )
+    );
 
-    updatedRoom.players = updatedPlayers;
+    // Update winner chips
+    const updatedPlayers = distributePot(
+      potentialWinners,
+      winner.id,
+      pots[currentPot].amount
+    );
 
+    updatedRoom.players = players.map(
+      (player) =>
+        updatedPlayers.find(
+          (updatedPlayer) => updatedPlayer.id === player.id
+        ) || player
+    );
+
+    // Update pots
     if (pots.length > 1) {
       updatedRoom.pots.pop();
       updatedRoom.currentPot -= 1;
@@ -213,7 +237,6 @@ export const useHand = () => {
     }
 
     await updateRoom(updatedRoom.id, updatedRoom);
-    return;
   }, []);
 
   return { updateHand, startHand, setHandWinner };

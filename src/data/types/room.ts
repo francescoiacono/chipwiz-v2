@@ -15,6 +15,5 @@ export interface Room {
   currentTurn: number;
   roundStart: number;
   isStarted: boolean;
-  isFinished: boolean;
   allInPlayers: number;
 }

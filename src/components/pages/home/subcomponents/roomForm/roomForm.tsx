@@ -13,8 +13,8 @@ const NewRoomForm = () => {
   const [formData, setFormData] = useState({
     roomName: '',
     username: '',
-    chips: 0,
-    blinds: [0, 0],
+    chips: 1000,
+    blinds: [20, 40],
   });
 
   const [loading, setLoading] = useState(false);

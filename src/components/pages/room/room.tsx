@@ -9,6 +9,7 @@ import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useHand } from '@/components/hooks/gameActions';
+import { calculatePotentialWins } from '@/utils/calculatePotentialWins';
 
 interface RoomProps {
   sessionId?: string;
@@ -39,6 +40,9 @@ const Room = ({ sessionId }: RoomProps) => {
         (player) => player.session === sessionId
       );
 
+      if (!currentPlayer) return;
+      const potentialWins = calculatePotentialWins(room.players);
+      currentPlayer.potentialWin = potentialWins[currentPlayer.id];
       setPlayer(currentPlayer);
     }
   }, [player, room, sessionId]);

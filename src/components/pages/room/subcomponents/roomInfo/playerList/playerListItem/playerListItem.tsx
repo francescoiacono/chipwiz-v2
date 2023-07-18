@@ -21,6 +21,7 @@ const PlayerListItem = ({ player, active }: PlayerListItemProps) => {
         {player.isDealer && <PlayerButton type={ButtonType.Dealer} />}
         {player.isSmallBlind && <PlayerButton type={ButtonType.SmallBlind} />}
         {player.isBigBlind && <PlayerButton type={ButtonType.BigBlind} />}
+        {player.isAllIn && <PlayerButton type={ButtonType.AllIn} />}
       </div>
     </li>
   );

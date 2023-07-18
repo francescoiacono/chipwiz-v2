@@ -17,13 +17,12 @@ export const useCall = () => {
     if (amountToCall > 0) {
       // 3a. But the player has less chips than the amount to call, then go all in
       if (currentPlayer.chips < amountToCall) {
+        console.log('Changing Total Bet to', currentPlayer.chips);
         currentPlayer.totalBet += currentPlayer.chips;
         currentPlayer.stageBet += currentPlayer.chips;
         currentPlayer.chips = 0;
         currentPlayer.isAllIn = true;
         currentPlayer.hasActed = true;
-
-        console.log("I'm all in");
 
         updatedRoom.pots[updatedRoom.currentPot].amount +=
           currentPlayer.stageBet;
@@ -36,11 +35,6 @@ export const useCall = () => {
         currentPlayer.chips -= amountToCall;
         updatedRoom.pots[updatedRoom.currentPot].amount += amountToCall;
       }
-
-      console.log(
-        'Next player turn: ',
-        getNextPlayerTurn(players, updatedRoom.currentTurn)
-      );
 
       // 3c. Update room turn
       updatedRoom.currentTurn = getNextPlayerTurn(

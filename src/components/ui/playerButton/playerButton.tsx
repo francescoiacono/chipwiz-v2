@@ -8,6 +8,7 @@ export enum ButtonType {
   Dealer = 'dealer',
   SmallBlind = 'smallBlind',
   BigBlind = 'bigBlind',
+  AllIn = 'allIn',
 }
 
 const PlayerButton = ({ type }: PlayerButtonProps) => {
@@ -32,6 +33,11 @@ const PlayerButton = ({ type }: PlayerButtonProps) => {
           className={`${styles.bigBlind} ${styles.button}`}
         >
           BB
+        </div>
+      )}
+      {type === ButtonType.AllIn && (
+        <div title='All In' className={`${styles.allIn} ${styles.button}`}>
+          AI
         </div>
       )}
     </>

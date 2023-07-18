@@ -44,7 +44,6 @@ export const POST = async (req: Request) => {
     roundStart: 0,
     allInPlayers: 0,
     isStarted: false,
-    isFinished: false,
   };
 
   try {
