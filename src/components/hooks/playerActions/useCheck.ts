@@ -4,7 +4,6 @@ import { getNextPlayerTurnInGame } from '@/utils';
 
 export const useCheck = () => {
   const check = async (room: Room) => {
-    // console.log('[CHECKING]');
     const updatedRoom = { ...room };
     const { players } = updatedRoom;
 

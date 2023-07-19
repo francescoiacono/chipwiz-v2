@@ -34,7 +34,6 @@ export const useRaise = () => {
     currentPlayer.chips -= raiseAmount;
 
     // 6. Update player current bet and set that player has acted
-    console.log('Changing Total Bet to', currentPlayer.totalBet + raiseAmount);
     currentPlayer.totalBet += raiseAmount;
     currentPlayer.stageBet += raiseAmount;
     currentPlayer.hasActed = true;

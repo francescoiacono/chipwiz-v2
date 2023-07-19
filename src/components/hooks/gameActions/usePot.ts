@@ -41,16 +41,12 @@ export const usePot = () => {
 
       // Distributing remaining pot among the other players based on their original chips
       return updatedPlayers.map((player) => {
-        console.log('player', player.name);
         if (player.id === winnerId) {
-          console.log('is the winner!', player);
           return player;
         }
         if (player.initialRoundChips >= winnerBet) {
-          console.log("Get some of the pot's chips", player);
           player.chips = player.initialRoundChips - winnerBet;
         } else {
-          console.log('is busted', player);
           player.chips = 0;
         }
         return player;

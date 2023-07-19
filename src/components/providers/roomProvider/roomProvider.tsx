@@ -21,8 +21,6 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
   const [room, setRoom] = useState<Room | null>(null);
 
   const listenRoom = useCallback((roomId: string) => {
-    // console.log(`[LISTENING TO ROOM ${roomId}]`);
-
     const docRef = doc(db, 'rooms', roomId);
 
     if (!docRef) return null;
