@@ -23,7 +23,10 @@ const WinnerSelector = ({
           } else {
             return (
               <li key={i}>
-                <Button onClick={() => handleWinnerSelection(player)}>
+                <Button
+                  format='primary'
+                  onClick={() => handleWinnerSelection(player)}
+                >
                   {player.name}
                 </Button>
               </li>

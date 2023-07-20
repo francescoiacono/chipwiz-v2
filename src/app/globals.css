@@ -3,7 +3,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  letter-spacing: 0.025rem;
 }
 
 /* Remove default margin */
@@ -18,6 +17,7 @@ blockquote,
 dl,
 dd {
   margin: 0;
+  padding: 0;
 }
 
 p,
@@ -64,17 +64,17 @@ select {
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 1.85rem;
   font-weight: 500;
 }
 
 h3 {
-  font-size: 1.125rem;
+  font-size: 1.3rem;
   font-weight: 500;
 }
 

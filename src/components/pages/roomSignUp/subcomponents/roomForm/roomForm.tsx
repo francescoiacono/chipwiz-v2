@@ -74,16 +74,16 @@ const NewRoomForm = () => {
         value={formData.roomName}
         placeholder='My amazing room'
       >
-        Room Name:
+        Room Name
       </FormInput>
 
       <FormInput
         handleChange={handleChange}
         name='username'
         value={formData.username}
-        placeholder='Choose your username'
+        placeholder='Choose a display name'
       >
-        Username:
+        Display Name
       </FormInput>
 
       <FormInput
@@ -92,7 +92,7 @@ const NewRoomForm = () => {
         value={formData.chips}
         type='number'
       >
-        Starting chips:
+        Starting chips
       </FormInput>
 
       <FormInput
@@ -101,16 +101,18 @@ const NewRoomForm = () => {
         value={formData.blinds[0]}
         type='number'
       >
-        Small Blind:
+        Small Blind
       </FormInput>
       {error && <div>Error: {error}</div>}
 
       {loading ? (
-        <Button type='submit'>
+        <Button format='primary' type='submit'>
           Create Room <Spinner small />
         </Button>
       ) : (
-        <Button type='submit'>Create Room</Button>
+        <Button format='primary' type='submit'>
+          Create Room
+        </Button>
       )}
     </form>
   );

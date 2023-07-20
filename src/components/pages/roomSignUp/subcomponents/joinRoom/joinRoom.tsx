@@ -64,11 +64,11 @@ const JoinRoom = () => {
 
       <FormInput
         name='username'
-        placeholder='Choose your username'
+        placeholder='Choose a display name'
         handleChange={handleChange}
         value={formData.username}
       >
-        Username
+        Display Name
       </FormInput>
 
       <FormInput
@@ -77,17 +77,19 @@ const JoinRoom = () => {
         value={formData.roomId}
         placeholder='xxx-xxx'
       >
-        Room Code:
+        Room Code
       </FormInput>
 
       {error && <div>Error: {error}</div>}
 
       {loading ? (
-        <Button type='submit'>
+        <Button format='primary' type='submit'>
           Join Room <Spinner small />{' '}
         </Button>
       ) : (
-        <Button type='submit'>Join Room</Button>
+        <Button format='primary' type='submit'>
+          Join Room
+        </Button>
       )}
     </form>
   );

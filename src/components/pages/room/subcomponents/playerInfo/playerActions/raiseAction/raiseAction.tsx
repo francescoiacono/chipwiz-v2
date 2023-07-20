@@ -35,6 +35,7 @@ const RaiseAction = ({ disabled }: RaiseActionProps) => {
   return (
     <section className={styles.raiseAction}>
       <Button
+        format='primary'
         disabled={disabled}
         onClick={
           showSlider

@@ -3,10 +3,11 @@
   display: flex;
   gap: 3rem;
   align-items: center;
+  color: #747474;
 }
 
 .horizontalDivider > div {
   width: 100%;
   height: 1px;
-  background-color: rgb(255, 255, 255);
+  background-color: #ccc;
 }

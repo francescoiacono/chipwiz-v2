@@ -1,35 +1,25 @@
 .button {
-  background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 4px;
   color: #333;
   cursor: pointer;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease-out, border-color 0.3s ease-out;
+  transition: all 0.2s ease-out, border-color 0.3s ease-out;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.button:disabled {
-  background-color: #ccc;
-  border-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
+.primary {
+  background-color: #00443b;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  color: white;
 }
 
-.button:hover:not(:disabled) {
-  background-color: #eee;
-  border-color: #bbb;
-}
-
-.button:active:not(:disabled) {
-  background-color: #ddd;
-  border-color: #aaa;
-}
-
-.button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #aaa;
+.primary:hover {
+  transform: scale(1.01);
+  background-color: #00352f;
 }

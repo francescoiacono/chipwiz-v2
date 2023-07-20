@@ -24,7 +24,9 @@ const RoomCode = () => {
       <h3>
         <span>Room Code: {slug}</span>
       </h3>
-      <Button onClick={handleCopyClick}>{buttonText}</Button>
+      <Button format='primary' onClick={handleCopyClick}>
+        {buttonText}
+      </Button>
     </div>
   );
 };

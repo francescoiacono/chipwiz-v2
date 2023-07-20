@@ -15,7 +15,7 @@ const CallAction = ({ disabled }: CallActionProps) => {
   };
 
   return (
-    <Button disabled={disabled} onClick={handleCall}>
+    <Button format='primary' disabled={disabled} onClick={handleCall}>
       Call
     </Button>
   );

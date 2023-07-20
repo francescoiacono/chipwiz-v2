@@ -1,4 +1,5 @@
 import Input from '../input/input';
+import styles from './formInput.module.css';
 
 interface FormInputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -6,7 +7,7 @@ interface FormInputProps {
   name: string;
   placeholder?: string;
   value: string | number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const FormInput = ({
@@ -18,8 +19,8 @@ const FormInput = ({
   children,
 }: FormInputProps) => {
   return (
-    <div>
-      <label>{children}</label>
+    <div className={styles.formInput}>
+      {children && <label>{children}</label>}
       <Input
         onChange={handleChange}
         type={type || 'text'}
