@@ -1,11 +1,15 @@
 .wrapper {
+  border: 1px solid black;
+  width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.infoContainer {
   padding-left: 1rem;
 }
 
-.playerInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  margin: 0.5rem 0 1rem 0;
+.turnText {
+  margin-bottom: 0.5rem;
 }

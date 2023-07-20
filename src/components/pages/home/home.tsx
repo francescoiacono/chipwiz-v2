@@ -1,14 +1,7 @@
-import JoinRoom from './subcomponents/joinRoom/joinRoom';
-import NewRoomForm from './subcomponents/roomForm/roomForm';
-import styles from './home.module.css';
+import HomeHero from './subcomponents/homeHero/homeHero';
 
 const Home = () => {
-  return (
-    <main className={styles.wrapper}>
-      <NewRoomForm />
-      <JoinRoom />
-    </main>
-  );
+  return <HomeHero />;
 };
 
 export default Home;

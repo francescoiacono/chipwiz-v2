@@ -1,0 +1,34 @@
+.center {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  gap: 2rem;
+  z-index: -1000;
+}
+
+.image {
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+  user-select: none;
+}
+
+.innerText {
+  position: absolute;
+  top: 38%;
+  font-size: 6rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: white;
+  user-select: none;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+}
+
+.description {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+  font-size: 1.3rem;
+}

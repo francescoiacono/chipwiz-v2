@@ -1,9 +1,8 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Nunito } from 'next/font/google';
 import type { Metadata } from 'next';
-import Navbar from '@/components/ui/navbar/navbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'ChipWiz V2',
@@ -17,10 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-      </body>
+      <body className={nunito.className}>{children}</body>
     </html>
   );
 }

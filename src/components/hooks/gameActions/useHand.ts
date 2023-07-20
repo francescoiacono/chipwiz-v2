@@ -41,8 +41,11 @@ export const useHand = () => {
 
     // If all players have acted, update game stage
     if (allPlayersActed(players)) {
+      console.log('All players have acted');
+
       // If all players are all-in, end the game
       if (allInPlayers.length === activePlayers.length - 1) {
+        console.log('All In but 1');
         updatedRoom.stage = Stage.SHOWDOWN;
         updatedRoom.isStarted = false;
 
@@ -61,6 +64,7 @@ export const useHand = () => {
         allInPlayers.length !== updatedRoom.allInPlayers &&
         canPlayersStillBet(players, updatedRoom.highestBet)
       ) {
+        console.log('New Side Pot');
         const sidePotPossibleWinners = activePlayers.filter(
           (player) => !player.isAllIn
         );
@@ -74,6 +78,7 @@ export const useHand = () => {
 
       // If all players are all-in, end the game
       else if (allInPlayers.length === activePlayers.length) {
+        console.log('All All-In');
         updatedRoom.pots[updatedRoom.currentPot].possibleWinners =
           activePlayers;
 

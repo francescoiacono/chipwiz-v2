@@ -60,7 +60,7 @@ const JoinRoom = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Join Room</h2>
+      <h1>Join Room</h1>
 
       <FormInput
         name='username'

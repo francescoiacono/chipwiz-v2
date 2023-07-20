@@ -1,4 +1,4 @@
-import PlayerActions from '../playerActions/playerActions';
+import PlayerActions from './playerActions/playerActions';
 import Button from '@/components/ui/button/button';
 import styles from './playerInfo.module.css';
 import { Player, Role } from '@/data/types';
@@ -6,6 +6,7 @@ import { isPlayerTurn } from '@/utils';
 import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
 import { useHand } from '@/components/hooks/gameActions';
+import PlayerStats from './playerStats/playerStats';
 
 interface PlayerInfoProps {
   player: Player;
@@ -26,32 +27,32 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
   }, [player.totalBet, player.id, player.role, room]);
 
   return (
-    <>
+    <section className={styles.wrapper}>
       <h2>{player.name}</h2>
       {room && (
-        <section className={styles.wrapper}>
-          <div className={styles.playerInfo}>
-            <p>Chips: {player.chips}</p>
-            <p>Current bet: {player.totalBet}</p>
-            <p>
-              To call:
-              {room.highestBet > player.chips
-                ? player.chips
-                : room.highestBet - player.stageBet}
-            </p>
-          </div>
+        <section className={styles.infoContainer}>
+          <PlayerStats room={room} player={player} />
 
-          <div>
+          <div className={styles.actionsWrapper}>
             {room.isStarted && (
-              <>{playerTurn ? <PlayerActions /> : <PlayerActions disabled />}</>
+              <>
+                {playerTurn ? (
+                  <>
+                    <h3 className={styles.turnText}>Your turn!</h3>
+                    <PlayerActions />
+                  </>
+                ) : (
+                  <PlayerActions disabled />
+                )}
+              </>
             )}
             {isPlayerHost && !room.isStarted && (
-              <Button onClick={() => startHand(room)}>Start Game</Button>
+              <Button onClick={() => startHand(room)}>New Hand</Button>
             )}
           </div>
         </section>
       )}
-    </>
+    </section>
   );
 };
 

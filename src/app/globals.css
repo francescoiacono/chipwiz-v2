@@ -93,3 +93,8 @@ h3 {
     scroll-behavior: auto !important;
   }
 }
+
+body {
+  background-color: #00443b;
+  color: white;
+}

@@ -10,13 +10,6 @@ const RoomWinner = () => {
   const { room } = useRoom();
   const { startHand, setHandWinner } = useHand();
 
-  // Handle reset when new round button is pressed
-  const handleHandReset = useCallback(async () => {
-    if (room) {
-      await startHand(room);
-    }
-  }, [room]);
-
   // Handle winner selection
   const handleWinnerSelection = async (player: Player) => {
     if (room) {
@@ -30,9 +23,7 @@ const RoomWinner = () => {
   // Component
   return (
     <>
-      {room.winner && (
-        <WinnerTitle handleHandReset={handleHandReset} winner={room.winner} />
-      )}
+      {room.winner && <WinnerTitle winner={room.winner} />}
       {!room.winner && stage === Stage.SHOWDOWN && (
         <WinnerSelector
           handleWinnerSelection={handleWinnerSelection}

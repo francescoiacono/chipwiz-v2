@@ -1,0 +1,12 @@
+.goBackArrow {
+  background: none;
+  border: none;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem;
+}
+
+.goBackArrow:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
