@@ -15,7 +15,7 @@ const CheckAction = ({ disabled }: CheckActionProps) => {
   };
 
   return (
-    <Button format='primary' disabled={disabled} onClick={handleCheck}>
+    <Button format='secondary' disabled={disabled} onClick={handleCheck}>
       Check
     </Button>
   );

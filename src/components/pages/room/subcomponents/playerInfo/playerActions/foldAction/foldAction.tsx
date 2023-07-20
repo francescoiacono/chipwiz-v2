@@ -15,7 +15,7 @@ const FoldAction = ({ disabled }: FoldActionProps) => {
   };
 
   return (
-    <Button format='primary' disabled={disabled} onClick={handleFold}>
+    <Button format='secondary' disabled={disabled} onClick={handleFold}>
       Fold
     </Button>
   );
