@@ -7,10 +7,12 @@
 }
 
 .title {
+  height: 100%;
   background-color: #00443b;
   border-radius: 10px 0 0 10px;
   margin: 0;
   padding: 0.5rem 1rem;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
 }
 
 .title > p {
