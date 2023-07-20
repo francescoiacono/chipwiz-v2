@@ -1,5 +1,6 @@
 .listWrapper {
-  width: 100%;
+  min-width: 15rem;
+  height: 100%;
 }
 
 .list {
@@ -7,4 +8,12 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .listWrapper {
+    min-width: default;
+    width: 100%;
+  }
 }
