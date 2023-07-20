@@ -47,7 +47,7 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
               </>
             )}
             {isPlayerHost && !room.isStarted && (
-              <Button format='primary' onClick={() => startHand(room)}>
+              <Button format='secondary' onClick={() => startHand(room)}>
                 New Hand
               </Button>
             )}
