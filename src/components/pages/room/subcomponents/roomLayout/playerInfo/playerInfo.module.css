@@ -1,0 +1,12 @@
+.wrapper {
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.infoContainer {
+  padding-left: 0;
+}
+
+.turnText {
+  margin-bottom: 0;
+}

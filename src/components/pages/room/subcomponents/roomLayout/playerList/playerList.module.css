@@ -1,0 +1,10 @@
+.listWrapper {
+  width: 100%;
+}
+
+.list {
+  margin: 0;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,9 +1,6 @@
 'use client';
-
-import RoomInfo from './subcomponents/roomInfo/roomInfo';
-import PlayerInfo from './subcomponents/playerInfo/playerInfo';
+import RoomLayout from './subcomponents/roomLayout/roomLayout';
 import Spinner from '@/components/ui/spinner/spinner';
-import styles from './room.module.css';
 import { Player } from '@/data/types';
 import { useRoom } from '@/components/providers';
 import { useEffect, useState } from 'react';
@@ -58,18 +55,9 @@ const Room = ({ sessionId }: RoomProps) => {
     handleRoundEnd();
   }, [room, updateHand]);
 
-  return (
-    <main className={styles.wrapper}>
-      {room && player ? (
-        <>
-          <RoomInfo />
-          <PlayerInfo player={player} />
-        </>
-      ) : (
-        <Spinner />
-      )}
-    </main>
-  );
+  if (!player || !room) return <Spinner />;
+
+  return <RoomLayout player={player} />;
 };
 
 export default Room;
