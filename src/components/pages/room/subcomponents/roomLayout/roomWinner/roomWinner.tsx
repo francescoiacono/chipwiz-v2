@@ -1,5 +1,6 @@
 import WinnerTitle from './winnerTitle/winnerTitle';
 import WinnerSelector from './winnerSelector/winnerSelector';
+import styles from './roomWinner.module.css';
 import { useRoom } from '@/components/providers';
 import { Player, Stage } from '@/data/types';
 import { useHand } from '@/components/hooks/gameActions';
@@ -20,7 +21,7 @@ const RoomWinner = () => {
 
   // Component
   return (
-    <>
+    <section className={styles.wrapper}>
       {room.winner && <WinnerTitle winner={room.winner} />}
       {!room.winner && stage === Stage.SHOWDOWN && (
         <WinnerSelector
@@ -28,7 +29,7 @@ const RoomWinner = () => {
           possibleWinners={pots[currentPot].possibleWinners}
         />
       )}
-    </>
+    </section>
   );
 };
 

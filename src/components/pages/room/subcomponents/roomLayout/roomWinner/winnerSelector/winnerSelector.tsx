@@ -1,5 +1,6 @@
-import { useRoom } from '@/components/providers';
 import Button from '@/components/ui/button/button';
+import styles from './winnerSelector.module.css';
+import { useRoom } from '@/components/providers';
 import { Player } from '@/data/types';
 
 interface WinnerSelectorProps {
@@ -14,9 +15,9 @@ const WinnerSelector = ({
   const { room } = useRoom();
 
   return (
-    <>
-      <p>Select winner for Pot {room?.pots.length} </p>
-      <ul>
+    <section className={styles.wrapper}>
+      <b>Select winner for Pot {room?.pots.length}! </b>
+      <ul className={styles.list}>
         {possibleWinners.map((player, i) => {
           if (player.isFolded) {
             return null;
@@ -34,7 +35,7 @@ const WinnerSelector = ({
           }
         })}
       </ul>
-    </>
+    </section>
   );
 };
 

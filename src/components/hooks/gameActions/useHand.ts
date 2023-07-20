@@ -223,6 +223,7 @@ export const useHand = () => {
       updatedRoom.currentPot -= 1;
     } else {
       updatedRoom.winner = winner;
+      updatedRoom.isStarted = false;
     }
 
     await updateRoom(updatedRoom.id, updatedRoom);

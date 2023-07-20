@@ -8,7 +8,7 @@ interface WinnerTitleProps {
 const WinnerTitle = ({ winner }: WinnerTitleProps) => {
   return (
     <>
-      <h1>Winner: {winner.name}</h1>
+      <h1>{winner.name} won this hand!</h1>
     </>
   );
 };

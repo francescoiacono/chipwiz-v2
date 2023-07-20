@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useHand } from '@/components/hooks/gameActions';
 import PlayerStats from './playerStats/playerStats';
 import VerticalPanel from '@/components/ui/verticalPanel/verticalPanel';
+import RoomWinner from '../roomWinner/roomWinner';
 
 interface PlayerInfoProps {
   player: Player;
@@ -30,9 +31,9 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
   return (
     <VerticalPanel title='Player Information'>
       <section className={styles.wrapper}>
-        <h2>{player.name}</h2>
         {room && (
           <section className={styles.infoContainer}>
+            <h2>{player.name}</h2>
             <PlayerStats room={room} player={player} />
 
             <div className={styles.actionsWrapper}>
@@ -56,6 +57,7 @@ const PlayerInfo = ({ player }: PlayerInfoProps) => {
             </div>
           </section>
         )}
+        <RoomWinner />
       </section>
     </VerticalPanel>
   );
