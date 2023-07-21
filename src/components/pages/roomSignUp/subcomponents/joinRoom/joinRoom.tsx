@@ -1,11 +1,10 @@
 'use client';
 
 import Button from '@/components/ui/button/button';
+import FormInput from '@/components/ui/formInput/formInput';
 import { useState } from 'react';
 import { createPlayer, findRoom, updateRoom } from '@/services';
 import { useRouter } from 'next/navigation';
-import Spinner from '@/components/ui/spinner/spinner';
-import FormInput from '@/components/ui/formInput/formInput';
 
 const JoinRoom = () => {
   const router = useRouter();
@@ -82,15 +81,9 @@ const JoinRoom = () => {
 
       {error && <div>Error: {error}</div>}
 
-      {loading ? (
-        <Button format='primary' type='submit'>
-          Join Room <Spinner small />{' '}
-        </Button>
-      ) : (
-        <Button format='primary' type='submit'>
-          Join Room
-        </Button>
-      )}
+      <Button loading={loading} format='primary' type='submit'>
+        Join Room
+      </Button>
     </form>
   );
 };

@@ -1,3 +1,4 @@
+import Spinner from '../spinner/spinner';
 import styles from './button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,7 +22,8 @@ const Button = ({
       disabled={loading || disabled}
       {...props}
     >
-      {loading ? 'Loading...' : children}
+      <span className={`${loading ? styles.hiddenText : ''}`}>{children}</span>
+      {loading && <Spinner small />}
     </button>
   );
 };

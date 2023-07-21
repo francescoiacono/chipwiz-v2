@@ -3,7 +3,6 @@
   border-top: 8px solid #8d8d8d; /* Blue */
   border-radius: 50%;
   animation: spin 2s linear infinite;
-  margin: 0 1rem;
   display: inline-block;
 }
 

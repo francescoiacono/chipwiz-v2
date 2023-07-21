@@ -1,6 +1,5 @@
 'use client';
 
-import Spinner from '@/components/ui/spinner/spinner';
 import Button from '@/components/ui/button/button';
 import FormInput from '@/components/ui/formInput/formInput';
 import { createPlayer, createRoom, updateRoom } from '@/services';
@@ -105,15 +104,9 @@ const NewRoomForm = () => {
       </FormInput>
       {error && <div>Error: {error}</div>}
 
-      {loading ? (
-        <Button format='primary' type='submit'>
-          Create Room <Spinner small />
-        </Button>
-      ) : (
-        <Button format='primary' type='submit'>
-          Create Room
-        </Button>
-      )}
+      <Button loading={loading} format='primary' type='submit'>
+        Create Room
+      </Button>
     </form>
   );
 };
