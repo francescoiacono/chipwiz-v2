@@ -22,6 +22,8 @@ const PlayerListItem = ({ player, active }: PlayerListItemProps) => {
         {player.isSmallBlind && <PlayerButton type={ButtonType.SmallBlind} />}
         {player.isBigBlind && <PlayerButton type={ButtonType.BigBlind} />}
         {player.isAllIn && <PlayerButton type={ButtonType.AllIn} />}
+        {player.isFolded && <p>Folded!</p>}
+        {player.isBusted && <p>Busted!</p>}
       </div>
     </li>
   );

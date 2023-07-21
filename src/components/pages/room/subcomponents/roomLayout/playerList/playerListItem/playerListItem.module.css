@@ -1,12 +1,14 @@
 .listItem {
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
 }
 
 .buttons {
   display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
