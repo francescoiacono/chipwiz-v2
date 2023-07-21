@@ -106,9 +106,6 @@ export const useHand = () => {
 
     // 0. If only one player is not busted, end the game
     if (getBustedPlayers(players).length === players.length - 1) {
-      updatedRoom.isStarted = false;
-
-      await updateRoom(updatedRoom.id, updatedRoom);
       return;
     }
 
@@ -224,6 +221,13 @@ export const useHand = () => {
     } else {
       updatedRoom.winner = winner;
       updatedRoom.isStarted = false;
+
+      updatedRoom.players = players.map((player) => {
+        if (player.chips <= 0) {
+          player.isBusted = true;
+        }
+        return player;
+      });
     }
 
     await updateRoom(updatedRoom.id, updatedRoom);

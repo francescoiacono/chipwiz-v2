@@ -1,37 +1,50 @@
-import { useRoom } from '@/components/providers';
 import RaiseAction from './raiseAction/raiseAction';
 import CallAction from './callAction/callAction';
 import CheckAction from './checkAction/checkAction';
 import FoldAction from './foldAction/foldAction';
+import NewHandAction from './newHandAction/newHandAction';
+import { useRoom } from '@/components/providers';
+import { Player, Room, Stage } from '@/data/types';
 
 import styles from './playerActions.module.css';
+import BuyInAction from './buyInAction/buyInAction';
 
 interface PlayerActionsProps {
-  disabled?: boolean;
+  player: Player;
+  room: Room;
 }
 
-const PlayerActions = ({ disabled }: PlayerActionsProps) => {
-  const { room } = useRoom();
+const PlayerActions = ({ player, room }: PlayerActionsProps) => {
+  const { highestBet, stage, players, currentTurn, isStarted } = room;
 
-  if (!room) return null;
+  const isTurn = () => {
+    return players[currentTurn].id === player.id;
+  };
 
-  const { players, currentTurn, highestBet, winner } = room;
-  const currentPlayer = players[currentTurn];
-
-  const canRaise = currentPlayer.chips > highestBet;
-  const canCall = currentPlayer.stageBet < highestBet;
-  const canCheck = currentPlayer.stageBet >= highestBet || highestBet === 0;
+  const canRaise = player.chips > highestBet;
+  const canCall = player.stageBet < highestBet;
+  const canCheck = player.stageBet >= highestBet || highestBet === 0;
 
   return (
     <section className={styles.wrapper}>
-      {!winner && (
+      {isTurn() ? <h4>Your Turn!</h4> : <h3>Waiting for other players...</h3>}
+
+      {player.isBusted && (
         <>
-          {canCall && <CallAction disabled={disabled} />}
-          {canCheck && <CheckAction disabled={disabled} />}
-          {canRaise && <RaiseAction disabled={disabled} />}
-          <FoldAction disabled={disabled} />
+          <h3>You{`'`}re busted!</h3>
+          <BuyInAction player={player} />
         </>
       )}
+
+      {stage !== Stage.SHOWDOWN && isStarted && (
+        <div className={styles.buttons}>
+          {canCall && <CallAction disabled={!isTurn()} />}
+          {canCheck && <CheckAction disabled={!isTurn()} />}
+          {canRaise && <RaiseAction disabled={!isTurn()} />}
+          <FoldAction disabled={!isTurn()} />
+        </div>
+      )}
+      <NewHandAction player={player} room={room} />
     </section>
   );
 };

@@ -18,7 +18,7 @@ const PlayerStats = ({ room, player }: PlayerStatsProps) => {
   return (
     <section className={styles.playerStats}>
       <p>
-        Chips: {player.chips}{' '}
+        Chips: {player.chips}
         <>
           {difference === 0 ? null : difference > 0 ? (
             <span style={{ color: 'green', fontWeight: 700 }}>
