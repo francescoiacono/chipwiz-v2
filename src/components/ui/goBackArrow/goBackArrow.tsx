@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import styles from './goBackArrow.module.css';
-import { useCallback, useEffect, useState } from 'react';
 
 type GoBackArrowProps = {
   black?: boolean;
@@ -16,10 +16,10 @@ const GoBackArrow = ({ black }: GoBackArrowProps) => {
   const [path, setPath] = useState<string>('/assets/icons/arrow_back.svg');
 
   const goBack = () => {
-    router.back();
+    router.push('/');
   };
 
-  const handleColor = useCallback(() => {
+  const handleWindowResize = useCallback(() => {
     if (window.innerWidth <= 700 && black) {
       setPath('/assets/icons/arrow_back_black.svg');
     } else {
@@ -28,12 +28,12 @@ const GoBackArrow = ({ black }: GoBackArrowProps) => {
   }, [black]);
 
   useEffect(() => {
-    handleColor();
-    window.addEventListener('resize', handleColor);
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
     return () => {
-      window.removeEventListener('resize', handleColor);
+      window.removeEventListener('resize', handleWindowResize);
     };
-  }, [handleColor]);
+  }, [handleWindowResize]);
 
   return (
     <button className={styles.goBackArrow} onClick={goBack}>
