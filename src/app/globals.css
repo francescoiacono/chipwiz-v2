@@ -98,3 +98,11 @@ body {
   background-color: #00443b;
   color: white;
 }
+
+a {
+  color: white;
+}
+
+a:hover {
+  transform: scale(1.1);
+}

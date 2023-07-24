@@ -4,9 +4,23 @@
   text-align: center;
   transition: all 0.2s ease-in-out;
   padding: 0.5rem;
+
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
 }
 
 .goBackArrow:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+  .goBackArrow {
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 30px;
+  }
 }

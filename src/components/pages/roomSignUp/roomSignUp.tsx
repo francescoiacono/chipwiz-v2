@@ -8,10 +8,8 @@ import styles from './roomSignUp.module.css';
 const RoomSignUp = () => {
   return (
     <>
-      <section className={styles.goBackArrow}>
-        <GoBackArrow />
-      </section>
       <main className={styles.wrapper}>
+        <GoBackArrow black />
         <NewRoomForm />
         <HorizontalDivider />
         <JoinRoom />

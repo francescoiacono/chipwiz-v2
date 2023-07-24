@@ -14,7 +14,7 @@ const HomeHero = () => (
     <CornerLink href='/room/signup' position='bottomLeft'>
       New Room
     </CornerLink>
-    <CornerLink href='/link4' position='bottomRight'>
+    <CornerLink href='/about' position='bottomRight'>
       About
     </CornerLink>
     <CenterImage src='/assets/normalchip.svg' alt='Centered'>

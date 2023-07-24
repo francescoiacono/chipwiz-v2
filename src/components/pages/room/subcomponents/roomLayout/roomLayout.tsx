@@ -13,7 +13,6 @@ const RoomLayout = ({ player }: RoomLayoutProps) => {
   return (
     <main className={styles.wrapper}>
       <RoomHeader />
-
       <div className={styles.gameInfo}>
         <div className={styles.settings}>
           <RoomStats />
