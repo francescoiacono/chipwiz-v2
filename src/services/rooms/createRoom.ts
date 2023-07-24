@@ -16,11 +16,16 @@ export const createRoom = async (
       }),
     });
 
-    const { newRoom } = await res.json();
+    const { newRoom, error } = await res.json();
 
-    if (newRoom) return newRoom;
-    else throw new Error('Could not create room');
+    if (newRoom) {
+      return newRoom;
+    } else {
+      throw new Error(error);
+    }
   } catch (error) {
-    console.error("There's been an error:", error);
+    let message = 'Unknown Error';
+    if (error instanceof Error) message = error.message;
+    throw new Error(message);
   }
 };

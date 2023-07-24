@@ -1,15 +1,16 @@
 import JoinRoom from './subcomponents/joinRoom/joinRoom';
 import NewRoomForm from './subcomponents/roomForm/roomForm';
-import styles from './roomSignUp.module.css';
 import HorizontalDivider from '@/components/ui/horizontalDivider/horizontalDivider';
 import GoBackArrow from '@/components/ui/goBackArrow/goBackArrow';
+
+import styles from './roomSignUp.module.css';
 
 const RoomSignUp = () => {
   return (
     <>
-      <div className={styles.goBackArrow}>
+      <section className={styles.goBackArrow}>
         <GoBackArrow />
-      </div>
+      </section>
       <main className={styles.wrapper}>
         <NewRoomForm />
         <HorizontalDivider />

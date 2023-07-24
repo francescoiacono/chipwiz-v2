@@ -79,7 +79,7 @@ const JoinRoom = () => {
         Room Code
       </FormInput>
 
-      {error && <div>Error: {error}</div>}
+      {error && <div>{error}</div>}
 
       <Button loading={loading} format='primary' type='submit'>
         Join Room

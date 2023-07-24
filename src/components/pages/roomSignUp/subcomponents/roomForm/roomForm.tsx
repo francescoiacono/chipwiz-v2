@@ -17,7 +17,7 @@ const NewRoomForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [e, setError] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -45,6 +45,11 @@ const NewRoomForm = () => {
         formData.chips,
         formData.blinds
       );
+
+      if (formData.chips < formData.blinds[1]) {
+        throw new Error('Starting chips must be greater than the big blind');
+      }
+
       const newPlayer = await createPlayer(
         formData.username,
         formData.chips,
@@ -55,12 +60,19 @@ const NewRoomForm = () => {
         const updateRoomPlayer = await updateRoom(newRoom.id, {
           players: [newPlayer],
         });
+
         if (!updateRoomPlayer)
-          throw new Error('Failed to update room with new player');
+          throw new Error(
+            'Failed to update room with new player' as Error['message']
+          );
+
         router.push(`/room/${newRoom.id}`);
       }
     } catch (e) {
-      setError(e as string);
+      let message = 'Unknown Error';
+      if (e instanceof Error) message = e.message;
+      setError(message);
+      setLoading(false);
     }
   };
 
@@ -102,7 +114,8 @@ const NewRoomForm = () => {
       >
         Small Blind
       </FormInput>
-      {error && <div>Error: {error}</div>}
+
+      {e && <div>{e}</div>}
 
       <Button loading={loading} format='primary' type='submit'>
         Create Room

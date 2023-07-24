@@ -19,8 +19,10 @@ const FormInput = ({
   children,
 }: FormInputProps) => {
   const handleChangeCorrectly = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
     handleChange(e);
-    if (type === 'number') e.target.value = e.target.value.substring(1);
+    if (type === 'number' && target.value.length > 1)
+      target.value = target.value.substring(1);
   };
 
   return (

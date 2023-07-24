@@ -16,11 +16,16 @@ export const createPlayer = async (
       }),
     });
 
-    const { newPlayer } = await res.json();
+    const { newPlayer, error } = await res.json();
 
-    if (newPlayer) return newPlayer;
-    else throw new Error('Could not create player');
+    if (newPlayer) {
+      return newPlayer;
+    } else {
+      throw new Error(error);
+    }
   } catch (error) {
-    console.error("There's been an error:", error);
+    let message = 'Unknown Error';
+    if (error instanceof Error) message = error.message;
+    throw new Error(message);
   }
 };

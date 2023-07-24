@@ -5,44 +5,36 @@ import { doc, setDoc } from 'firebase/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 // API route for creating a new room
 export const POST = async (req: NextRequest) => {
-  const { username, chips, host } = await req.json();
-
-  if (
-    typeof username !== 'string' ||
-    typeof chips !== 'number' ||
-    typeof host !== 'boolean'
-  ) {
-    return NextResponse.json(
-      {
-        message: 'Invalid input data',
-      },
-      { status: 400 }
-    );
-  }
-
-  const playerId = generateId();
-  const sessionId = generateSessionId();
-
-  const newPlayer: Player = {
-    id: playerId,
-    name: username,
-    chips,
-    session: sessionId,
-    role: host ? Role.HOST : Role.PLAYER,
-    totalBet: 0,
-    stageBet: 0,
-    initialRoundChips: chips,
-    potentialWin: 0,
-    hasActed: false,
-    isBusted: false,
-    isFolded: false,
-    isAllIn: false,
-    isDealer: false,
-    isSmallBlind: false,
-    isBigBlind: false,
-  };
-
   try {
+    const { username, chips, host } = await req.json();
+
+    if (username.length > 20)
+      return NextResponse.json({
+        error: 'Player name is too long. Please use under 20 characters.',
+      });
+
+    const playerId = generateId();
+    const sessionId = generateSessionId();
+
+    const newPlayer: Player = {
+      id: playerId,
+      name: username,
+      chips,
+      session: sessionId,
+      role: host ? Role.HOST : Role.PLAYER,
+      totalBet: 0,
+      stageBet: 0,
+      initialRoundChips: chips,
+      potentialWin: 0,
+      hasActed: false,
+      isBusted: false,
+      isFolded: false,
+      isAllIn: false,
+      isDealer: false,
+      isSmallBlind: false,
+      isBigBlind: false,
+    };
+
     await setDoc(doc(db, 'players', playerId), newPlayer);
 
     const res = NextResponse.json(
